@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footwear Sales SQL Reference</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Fraunces:wght@400;700;900&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'Space Mono', monospace; }
+    .heading-font { font-family: 'Fraunces', serif; }
+    .code-block {
+      background: #0d1117;
+      color: #c9d1d9;
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 13px;
+      line-height: 1.8;
+      border: 1px solid #21262d;
+    }
+    .kw { color: #ff7b72; font-weight: 700; }
+    .typ { color: #79c0ff; }
+    .str { color: #a5d6ff; }
+    .num { color: #ffa657; }
+    .cm { color: #8b949e; font-style: italic; }
+    .fn { color: #d2a8ff; }
+    .tbl { color: #7ee787; }
+    .op { color: #ffa657; }
+    .query-btn { transition: all 0.2s; }
+    .query-btn.active { background: #ff7b72; color: #0d1117; transform: scale(1.03); }
+    .query-btn:not(.active):hover { background: #21262d; }
+    .result-table th { background: #161b22; }
+    .result-table td { border-bottom: 1px solid #21262d; }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen" style="background: rgb(13, 17, 23);">
+  <header class="relative overflow-hidden">
+   <div class="absolute inset-0"><img data-template-id="hero-img" class="canva-image w-full h-full object-cover opacity-25" loading="lazy" src="https://images.pexels.com/photos/2300334/pexels-photo-2300334.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Vibrant colored sneakers displayed on a wooden table in a London store">
+   </div>
+   <div class="relative z-10 max-w-5xl mx-auto px-6 py-16 text-center">
+    <h1 data-template-id="main-title" class="canva-text heading-font" style="color: rgb(255, 123, 114); font-weight: 900; font-style: normal; font-size: 28px;">Footwear Sales Database</h1>
+    <p data-template-id="subtitle" class="canva-text mt-4" style="color: rgb(139, 148, 158); font-weight: 400; font-style: normal; font-size: 16px;">Complete SQL schema, sample data &amp; interactive queries — v2</p>
+   </div>
+  </header>
+  <main class="max-w-5xl mx-auto px-6 py-10 space-y-12"><!-- Schema -->
+   <section>
+    <h2 data-template-id="schema-heading" class="canva-text heading-font mb-4" style="color: rgb(201, 209, 217); font-weight: 700; font-style: normal; font-size: 23px;">📐 Database Schema</h2>
+    <div class="code-block">
+     <span class="cm">-- Database Schema for Footwear Sales</span> <span class="kw">CREATE TABLE</span> <span class="tbl">brands</span> ( brand_id <span class="typ">INT</span> <span class="kw">PRIMARY KEY</span>, brand_name <span class="typ">VARCHAR</span>(100) <span class="kw">NOT NULL</span>, country <span class="typ">VARCHAR</span>(60) ); <span class="kw">CREATE TABLE</span> <span class="tbl">products</span> ( product_id <span class="typ">INT</span> <span class="kw">PRIMARY KEY</span>, product_name <span class="typ">VARCHAR</span>(150) <span class="kw">NOT NULL</span>, brand_id <span class="typ">INT</span> <span class="kw">REFERENCES</span> <span class="tbl">brands</span>(brand_id), category <span class="typ">VARCHAR</span>(50), price <span class="typ">DECIMAL</span>(10,2), stock_qty <span class="typ">INT</span> <span class="kw">DEFAULT</span> <span class="num">0</span> ); <span class="kw">CREATE TABLE</span> <span class="tbl">customers</span> ( customer_id <span class="typ">INT</span> <span class="kw">PRIMARY KEY</span>, full_name <span class="typ">VARCHAR</span>(120), email <span class="typ">VARCHAR</span>(200) <span class="kw">UNIQUE</span>, city <span class="typ">VARCHAR</span>(80) ); <span class="kw">CREATE TABLE</span> <span class="tbl">orders</span> ( order_id <span class="typ">INT</span> <span class="kw">PRIMARY KEY</span>, customer_id <span class="typ">INT</span> <span class="kw">REFERENCES</span> <span class="tbl">customers</span>(customer_id), order_date <span class="typ">DATE</span>, total_amount <span class="typ">DECIMAL</span>(10,2) ); <span class="kw">CREATE TABLE</span> <span class="tbl">order_items</span> ( item_id <span class="typ">INT</span> <span class="kw">PRIMARY KEY</span>, order_id <span class="typ">INT</span> <span class="kw">REFERENCES</span> <span class="tbl">orders</span>(order_id), product_id <span class="typ">INT</span> <span class="kw">REFERENCES</span> <span class="tbl">products</span>(product_id), quantity <span class="typ">INT</span>, unit_price <span class="typ">DECIMAL</span>(10,2) );
+    </div>
+   </section><!-- Query Runner -->
+   <section>
+    <h2 data-template-id="queries-heading" class="canva-text heading-font mb-4" style="color: rgb(201, 209, 217); font-weight: 700; font-style: normal; font-size: 23px;">⚡ Interactive Query Runner</h2>
+    <div class="flex flex-wrap gap-2 mb-4" id="query-buttons"></div>
+    <div id="query-display" class="code-block mb-4" style="min-height:60px;"></div><button data-template-id="run-btn" class="canva-button px-5 py-2 rounded-md font-bold transition hover:opacity-90" onclick="runQuery()" style="background: rgb(255, 123, 114); color: rgb(13, 17, 23); font-weight: 700; font-style: normal; font-size: 14px;">Run Query</button>
+   </section><!-- Results -->
+   <section id="results-section" class="hidden fade-in">
+    <h2 data-template-id="results-heading" class="canva-text heading-font mb-4" style="color: rgb(201, 209, 217); font-weight: 700; font-style: normal; font-size: 23px;">📊 Query Results</h2>
+    <div class="overflow-x-auto rounded-lg border border-[#21262d]">
+     <table class="result-table w-full text-sm" id="results-table"></table>
+    </div>
+   </section><!-- Sample INSERT -->
+   <section>
+    <h2 data-template-id="insert-heading" class="canva-text heading-font mb-4" style="color: rgb(201, 209, 217); font-weight: 700; font-style: normal; font-size: 23px;">📝 Sample Data (INSERT Statements)</h2>
+    <div class="code-block">
+     <span class="cm">-- Insert sample data</span> <span class="kw">INSERT INTO</span> <span class="tbl">brands</span> <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Nike'</span>, <span class="str">'USA'</span>), (<span class="num">2</span>, <span class="str">'Adidas'</span>, <span class="str">'Germany'</span>), (<span class="num">3</span>, <span class="str">'New Balance'</span>, <span class="str">'USA'</span>); <span class="kw">INSERT INTO</span> <span class="tbl">products</span> <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Air Max 90'</span>, <span class="num">1</span>, <span class="str">'Sneakers'</span>, <span class="num">130.00</span>, <span class="num">45</span>), (<span class="num">2</span>, <span class="str">'Ultraboost 22'</span>, <span class="num">2</span>, <span class="str">'Running'</span>, <span class="num">190.00</span>, <span class="num">30</span>), (<span class="num">3</span>, <span class="str">'574 Classic'</span>, <span class="num">3</span>, <span class="str">'Sneakers'</span>, <span class="num">89.99</span>, <span class="num">60</span>), (<span class="num">4</span>, <span class="str">'Dunk Low'</span>, <span class="num">1</span>, <span class="str">'Sneakers'</span>, <span class="num">110.00</span>, <span class="num">25</span>), (<span class="num">5</span>, <span class="str">'Samba OG'</span>, <span class="num">2</span>, <span class="str">'Casual'</span>, <span class="num">100.00</span>, <span class="num">55</span>); <span class="kw">INSERT INTO</span> <span class="tbl">customers</span> <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Alex Rivera'</span>, <span class="str">'alex@mail.com'</span>, <span class="str">'Austin'</span>), (<span class="num">2</span>, <span class="str">'Jordan Lee'</span>, <span class="str">'jordan@mail.com'</span>, <span class="str">'Dallas'</span>), (<span class="num">3</span>, <span class="str">'Sam Chen'</span>, <span class="str">'sam@mail.com'</span>, <span class="str">'Houston'</span>); <span class="kw">INSERT INTO</span> <span class="tbl">orders</span> <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="num">1</span>, <span class="str">'2026-05-01'</span>, <span class="num">240.00</span>), (<span class="num">2</span>, <span class="num">2</span>, <span class="str">'2026-05-03'</span>, <span class="num">190.00</span>), (<span class="num">3</span>, <span class="num">3</span>, <span class="str">'2026-05-10'</span>, <span class="num">199.99</span>); <span class="kw">INSERT INTO</span> <span class="tbl">order_items</span> <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">130.00</span>), (<span class="num">2</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">110.00</span>), (<span class="num">3</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">1</span>, <span class="num">190.00</span>), (<span class="num">4</span>, <span class="num">3</span>, <span class="num">3</span>, <span class="num">1</span>, <span class="num">89.99</span>), (<span class="num">5</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">1</span>, <span class="num">110.00</span>);
+    </div>
+   </section>
+  </main>
+  <footer class="text-center py-6 opacity-50">
+   <p data-template-id="footer-text" class="canva-text text-xs" style="color: rgb(139, 148, 158); font-weight: 400; font-style: normal; font-size: 14px;">Footwear Sales SQL Reference — Sample Database v2</p>
+  </footer>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+    const brands = [
+      {brand_id:1,brand_name:'Nike',country:'USA'},
+      {brand_id:2,brand_name:'Adidas',country:'Germany'},
+      {brand_id:3,brand_name:'New Balance',country:'USA'}
+    ];
+    const products = [
+      {product_id:1,product_name:'Air Max 90',brand_id:1,category:'Sneakers',price:130.00,stock_qty:45},
+      {product_id:2,product_name:'Ultraboost 22',brand_id:2,category:'Running',price:190.00,stock_qty:30},
+      {product_id:3,product_name:'574 Classic',brand_id:3,category:'Sneakers',price:89.99,stock_qty:60},
+      {product_id:4,product_name:'Dunk Low',brand_id:1,category:'Sneakers',price:110.00,stock_qty:25},
+      {product_id:5,product_name:'Samba OG',brand_id:2,category:'Casual',price:100.00,stock_qty:55}
+    ];
+    const customers = [
+      {customer_id:1,full_name:'Alex Rivera',email:'alex@mail.com',city:'Austin'},
+      {customer_id:2,full_name:'Jordan Lee',email:'jordan@mail.com',city:'Dallas'},
+      {customer_id:3,full_name:'Sam Chen',email:'sam@mail.com',city:'Houston'}
+    ];
+    const orders = [
+      {order_id:1,customer_id:1,order_date:'2026-05-01',total_amount:240.00},
+      {order_id:2,customer_id:2,order_date:'2026-05-03',total_amount:190.00},
+      {order_id:3,customer_id:3,order_date:'2026-05-10',total_amount:199.99}
+    ];
+    const order_items = [
+      {item_id:1,order_id:1,product_id:1,quantity:1,unit_price:130.00},
+      {item_id:2,order_id:1,product_id:4,quantity:1,unit_price:110.00},
+      {item_id:3,order_id:2,product_id:2,quantity:1,unit_price:190.00},
+      {item_id:4,order_id:3,product_id:3,quantity:1,unit_price:89.99},
+      {item_id:5,order_id:3,product_id:5,quantity:1,unit_price:110.00}
+    ];
+
+    const queries = [
+      {
+        label:'All Products',
+        sql:`SELECT p.product_name, b.brand_name,
+       p.category, p.price, p.stock_qty
+FROM products p
+JOIN brands b ON p.brand_id = b.brand_id
+ORDER BY p.price DESC;`,
+        run:()=>products.map(p=>{
+          const b=brands.find(x=>x.brand_id===p.brand_id);
+          return{product_name:p.product_name,brand_name:b.brand_name,category:p.category,price:'$'+p.price.toFixed(2),stock_qty:p.stock_qty};
+        }).sort((a,b)=>parseFloat(b.price.slice(1))-parseFloat(a.price.slice(1)))
+      },
+      {
+        label:'Revenue by Brand',
+        sql:`SELECT b.brand_name,
+       SUM(oi.quantity * oi.unit_price) AS total_revenue
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+JOIN brands b ON p.brand_id = b.brand_id
+GROUP BY b.brand_name
+ORDER BY total_revenue DESC;`,
+        run:()=>{
+          const rev={};
+          order_items.forEach(oi=>{
+            const p=products.find(x=>x.product_id===oi.product_id);
+            const b=brands.find(x=>x.brand_id===p.brand_id);
+            rev[b.brand_name]=(rev[b.brand_name]||0)+oi.quantity*oi.unit_price;
+          });
+          return Object.entries(rev).sort((a,b)=>b[1]-a[1]).map(([n,v])=>({brand_name:n,total_revenue:'$'+v.toFixed(2)}));
+        }
+      },
+      {
+        label:'Customer Orders',
+        sql:`SELECT c.full_name, c.city,
+       o.order_date, o.total_amount
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+ORDER BY o.order_date;`,
+        run:()=>orders.map(o=>{
+          const c=customers.find(x=>x.customer_id===o.customer_id);
+          return{full_name:c.full_name,city:c.city,order_date:o.order_date,total_amount:'$'+o.total_amount.toFixed(2)};
+        })
+      },
+      {
+        label:'Low Stock Alert',
+        sql:`SELECT product_name, stock_qty
+FROM products
+WHERE stock_qty < 40
+ORDER BY stock_qty ASC;`,
+        run:()=>products.filter(p=>p.stock_qty<40).sort((a,b)=>a.stock_qty-b.stock_qty).map(p=>({product_name:p.product_name,stock_qty:p.stock_qty}))
+      },
+      {
+        label:'Top Selling Items',
+        sql:`SELECT p.product_name,
+       SUM(oi.quantity) AS units_sold,
+       SUM(oi.quantity * oi.unit_price) AS revenue
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY p.product_name
+ORDER BY units_sold DESC;`,
+        run:()=>{
+          const m={};
+          order_items.forEach(oi=>{
+            const p=products.find(x=>x.product_id===oi.product_id);
+            if(!m[p.product_name])m[p.product_name]={units:0,rev:0};
+            m[p.product_name].units+=oi.quantity;
+            m[p.product_name].rev+=oi.quantity*oi.unit_price;
+          });
+          return Object.entries(m).sort((a,b)=>b[1].units-a[1].units).map(([n,v])=>({product_name:n,units_sold:v.units,revenue:'$'+v.rev.toFixed(2)}));
+        }
+      }
+    ];
+
+    let activeQuery=0;
+    const btnContainer=document.getElementById('query-buttons');
+    const display=document.getElementById('query-display');
+
+    function highlight(sql){
+      return sql
+        .replace(/\b(SELECT|FROM|JOIN|ON|WHERE|ORDER BY|GROUP BY|SUM|COUNT|AS|DESC|ASC|AND|OR|NOT NULL|INSERT INTO|VALUES|CREATE TABLE|PRIMARY KEY|REFERENCES|DEFAULT|UNIQUE|INT|VARCHAR|DECIMAL|DATE)\b/gi,m=>{
+          const u=m.toUpperCase();
+          if(['INT','VARCHAR','DECIMAL','DATE'].includes(u))return`<span class="typ">${m}</span>`;
+          if(['SUM','COUNT'].includes(u))return`<span class="fn">${m}</span>`;
+          return`<span class="kw">${m}</span>`;
+        })
+        .replace(/'[^']*'/g,m=>`<span class="str">${m}</span>`)
+        .replace(/\b\d+(\.\d+)?\b/g,m=>`<span class="num">${m}</span>`);
+    }
+
+    queries.forEach((q,i)=>{
+      const btn=document.createElement('button');
+      btn.className='query-btn px-3 py-1.5 rounded-md text-sm border border-[#21262d] text-[#c9d1d9]'+(i===0?' active':'');
+      btn.textContent=q.label;
+      btn.onclick=()=>selectQuery(i);
+      btnContainer.appendChild(btn);
+    });
+
+    function selectQuery(i){
+      activeQuery=i;
+      btnContainer.querySelectorAll('.query-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+      display.innerHTML=highlight(queries[i].sql);
+      document.getElementById('results-section').classList.add('hidden');
+    }
+
+    function runQuery(){
+      const data=queries[activeQuery].run();
+      const section=document.getElementById('results-section');
+      const table=document.getElementById('results-table');
+      if(!data.length){table.innerHTML='<tr><td class="p-4 text-center opacity-50">No results</td></tr>';section.classList.remove('hidden');return;}
+      const keys=Object.keys(data[0]);
+      table.innerHTML='<thead><tr>'+keys.map(k=>`<th class="px-4 py-2 text-left text-xs uppercase tracking-wider text-[#8b949e]">${k}</th>`).join('')+'</tr></thead><tbody>'+
+        data.map(r=>'<tr class="hover:bg-[#161b22] transition-colors">'+keys.map(k=>`<td class="px-4 py-2 text-[#c9d1d9]">${r[k]}</td>`).join('')+'</tr>').join('')+'</tbody>';
+      section.classList.remove('hidden');
+      section.classList.remove('fade-in');
+      void section.offsetWidth;
+      section.classList.add('fade-in');
+    }
+
+    selectQuery(0);
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9fce3ec1b1b4d7bf',t:'MTc3ODk3NTAxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
