@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peak Planner</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'Work Sans', sans-serif; }
+    .display-font { font-family: 'Playfair Display', serif; }
+    .bg-wrap { position: fixed; inset: 0; z-index: 0; }
+    .bg-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .bg-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(5,15,30,0.7) 0%, rgba(10,25,50,0.92) 100%); }
+    .shell { position: relative; z-index: 1; }
+    .badge-slot { transition: all 0.4s ease; }
+    .badge-slot.unlocked { animation: pop 0.5s ease; }
+    @keyframes pop { 0%{transform:scale(0.5);opacity:0} 50%{transform:scale(1.12)} 100%{transform:scale(1);opacity:1} }
+    .task-row { transition: all 0.3s ease; }
+    .task-row.done .t-title { text-decoration: line-through; opacity: 0.45; }
+    .pill.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.5); }
+    .prog-fill { transition: width 0.6s ease; }
+    .cat-w { background: #2563eb; } .cat-p { background: #9333ea; } .cat-s { background: #d97706; }
+  </style>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen" style="background: rgb(5, 15, 30);">
+  <div class="bg-wrap"><img data-template-id="bg-image" class="canva-image" loading="lazy" src="https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920" alt="A breathtaking view of snow-covered mountain peaks surrounded by dense fog, creating a mystical landscape.">
+  </div>
+  <div class="shell min-h-screen flex flex-col">
+   <header class="text-center pt-12 pb-5 px-4">
+    <h1 data-template-id="main-title" class="canva-text display-font" style="color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 34px;">Peak Planner</h1>
+    <p data-template-id="subtitle" class="canva-text mt-1.5" style="color: rgb(136, 153, 176); font-weight: 400; font-style: normal; font-size: 16px;">Conquer your to-do list, one peak at a time</p>
+    <div class="max-w-sm mx-auto mt-4 h-1.5 rounded-full bg-white/10 overflow-hidden">
+     <div id="prog" class="prog-fill h-full rounded-full bg-teal-400" style="width:0%"></div>
+    </div>
+    <p id="prog-txt" class="text-white/40 text-xs mt-1">0 / 0</p>
+   </header><!-- Badges -->
+   <section class="max-w-xl mx-auto w-full px-4 mb-5">
+    <h2 data-template-id="badges-title" class="canva-text display-font mb-2 text-xs uppercase tracking-[0.2em]" style="color: rgb(90, 106, 128); font-weight: 700; font-style: normal; font-size: 24px;">Achievements</h2>
+    <div class="grid grid-cols-4 gap-2" id="badges">
+     <div class="badge-slot rounded-lg p-2.5 text-center opacity-25 bg-white/5" id="b-1">
+      <div class="text-xl">
+       ⭐
+      </div>
+      <p data-template-id="b1-label" class="canva-text text-[10px] mt-1" style="color: rgb(200, 212, 224); font-weight: 400; font-style: normal; font-size: 16px;">First Step</p>
+     </div>
+     <div class="badge-slot rounded-lg p-2.5 text-center opacity-25 bg-white/5" id="b-5">
+      <div class="text-xl">
+       🔥
+      </div>
+      <p data-template-id="b5-label" class="canva-text text-[10px] mt-1" style="color: rgb(200, 212, 224); font-weight: 400; font-style: normal; font-size: 16px;">On Fire</p>
+     </div>
+     <div class="badge-slot rounded-lg p-2.5 text-center opacity-25 bg-white/5" id="b-10">
+      <div class="text-xl">
+       🏔️
+      </div>
+      <p data-template-id="b10-label" class="canva-text text-[10px] mt-1" style="color: rgb(200, 212, 224); font-weight: 400; font-style: normal; font-size: 16px;">Summiteer</p>
+     </div>
+     <div class="badge-slot rounded-lg p-2.5 text-center opacity-25 bg-white/5" id="b-all">
+      <div class="text-xl">
+       🌈
+      </div>
+      <p data-template-id="ball-label" class="canva-text text-[10px] mt-1" style="color: rgb(200, 212, 224); font-weight: 400; font-style: normal; font-size: 16px;">Well-Rounded</p>
+     </div>
+    </div>
+   </section><!-- Add form -->
+   <section class="max-w-xl mx-auto w-full px-4 mb-3">
+    <form id="add-form" class="flex gap-2"><input id="task-input" data-template-id="task-input" class="canva-input flex-1 px-4 py-2 rounded-lg bg-white/8 border border-white/15 text-white placeholder-white/35 outline-none focus:border-teal-400/60 text-sm" type="text" placeholder="What needs to be done?" style="color: rgb(255, 255, 255); font-weight: 400; font-style: normal; font-size: 16px;"> <select id="cat-sel" class="px-3 py-2 rounded-lg bg-white/8 border border-white/15 text-white outline-none text-xs"> <option value="Work">Work</option> <option value="Personal">Personal</option> <option value="Shopping">Shopping</option> </select> <button data-template-id="add-btn" type="submit" class="canva-button px-4 py-2 rounded-lg font-bold text-sm" style="background: rgb(45, 212, 191); color: rgb(5, 15, 30); font-weight: 700; font-style: normal; font-size: 16px;">Add</button>
+    </form>
+   </section><!-- Filters -->
+   <section class="max-w-xl mx-auto w-full px-4 mb-3">
+    <div class="flex gap-1.5 flex-wrap"><button class="pill active text-white/70 text-xs px-3 py-1 rounded-full border border-white/15" data-filter="All">All</button> <button class="pill text-white/70 text-xs px-3 py-1 rounded-full border border-white/15" data-filter="Work">💼 Work</button> <button class="pill text-white/70 text-xs px-3 py-1 rounded-full border border-white/15" data-filter="Personal">🧘 Personal</button> <button class="pill text-white/70 text-xs px-3 py-1 rounded-full border border-white/15" data-filter="Shopping">🛒 Shopping</button>
+    </div>
+   </section><!-- Tasks -->
+   <main class="max-w-xl mx-auto w-full px-4 pb-10 flex-1">
+    <div id="list" class="space-y-2"></div>
+    <p id="empty" data-template-id="empty-state" class="canva-text text-center py-12 opacity-50" style="color: rgb(136, 153, 176); font-weight: 400; font-style: normal; font-size: 16px;">No tasks yet — add one above to start your ascent!</p>
+    <div id="loader" class="hidden text-center py-8 text-white/40">
+     <span class="animate-pulse">Loading…</span>
+    </div>
+    <div id="limit-warn" class="hidden text-center py-2.5 px-4 rounded-lg bg-amber-500/20 text-amber-300 text-xs mt-3">
+     Maximum 999 tasks reached. Delete some first.
+    </div>
+   </main>
+  </div>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+    let tasks = [], filter = 'All';
+    const list = document.getElementById('list');
+    const empty = document.getElementById('empty');
+    const prog = document.getElementById('prog');
+    const progTxt = document.getElementById('prog-txt');
+    const limitWarn = document.getElementById('limit-warn');
+    const loader = document.getElementById('loader');
+    const catCls = { Work: 'cat-w', Personal: 'cat-p', Shopping: 'cat-s' };
+
+    const bdefs = [
+      { id: 'b-1', test: d => d.filter(t=>t.completed).length >= 1 },
+      { id: 'b-5', test: d => d.filter(t=>t.completed).length >= 5 },
+      { id: 'b-10', test: d => d.filter(t=>t.completed).length >= 10 },
+      { id: 'b-all', test: d => { const c = new Set(d.filter(t=>t.completed).map(t=>t.category)); return c.has('Work')&&c.has('Personal')&&c.has('Shopping'); }}
+    ];
+
+    function updBadges(d) {
+      bdefs.forEach(b => {
+        const el = document.getElementById(b.id);
+        const on = b.test(d), was = el.classList.contains('opacity-25');
+        if (on) { el.classList.remove('opacity-25'); el.style.background='rgba(255,255,255,0.1)'; if(was){el.classList.add('unlocked');setTimeout(()=>el.classList.remove('unlocked'),600);} }
+        else { el.classList.add('opacity-25'); el.style.background=''; }
+      });
+    }
+
+    function updProg(d) {
+      const tot=d.length, dn=d.filter(t=>t.completed).length, p=tot?Math.round(dn/tot*100):0;
+      prog.style.width=p+'%'; progTxt.textContent=`${dn} / ${tot}`;
+    }
+
+    function render(d) {
+      const fd = filter==='All'?d:d.filter(t=>t.category===filter);
+      const map = new Map([...list.children].map(e=>[e.dataset.id,e]));
+      const ids = new Set(fd.map(t=>t.__backendId));
+      map.forEach((e,id)=>{ if(!ids.has(id)) e.remove(); });
+      fd.forEach(t => {
+        const id=t.__backendId; let el=map.get(id);
+        if(!el){
+          el=document.createElement('div'); el.dataset.id=id;
+          el.className='task-row flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/8 border border-white/8';
+          el.innerHTML=`<button class="ck w-5 h-5 rounded-full border-2 border-white/25 flex items-center justify-center flex-shrink-0 text-xs hover:border-white/50 transition" aria-label="Toggle"></button><span class="t-title flex-1 text-white text-sm"></span><span class="t-cat text-[10px] px-2 py-0.5 rounded-full text-white font-medium"></span><button class="dl text-white/25 hover:text-red-400 transition" aria-label="Delete"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>`;
+          el.querySelector('.ck').addEventListener('click',()=>togTask(t));
+          el.querySelector('.dl').addEventListener('click',()=>delTask(t,el));
+          list.appendChild(el); lucide.createIcons();
+        }
+        el.querySelector('.t-title').textContent=t.title;
+        const tag=el.querySelector('.t-cat'); tag.textContent=t.category; tag.className='t-cat text-[10px] px-2 py-0.5 rounded-full text-white font-medium '+(catCls[t.category]||'');
+        const ck=el.querySelector('.ck'); ck.innerHTML=t.completed?'✓':''; ck.style.background=t.completed?'rgba(45,212,191,0.8)':''; ck.style.borderColor=t.completed?'transparent':''; ck.style.color='#fff';
+        el.classList.toggle('done',!!t.completed);
+      });
+      empty.style.display=fd.length?'none':'block';
+    }
+
+    async function togTask(t){
+      const r=await window.dataSdk.update({...t,completed:!t.completed,completed_at:!t.completed?new Date().toISOString():''});
+      if(r.isError) toast('Update failed');
+    }
+    async function delTask(t,el){
+      el.style.opacity='0.4';el.style.pointerEvents='none';
+      const r=await window.dataSdk.delete(t);
+      if(r.isError){el.style.opacity='';el.style.pointerEvents='';toast('Delete failed');}
+    }
+    function toast(m){const t=document.createElement('div');t.className='fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-500/90 text-white px-4 py-2 rounded-lg text-xs z-50';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+
+    document.querySelectorAll('.pill').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;render(tasks);}));
+
+    document.getElementById('add-form').addEventListener('submit',async e=>{
+      e.preventDefault(); const inp=document.getElementById('task-input'),v=inp.value.trim(); if(!v)return;
+      if(tasks.length>=999){limitWarn.classList.remove('hidden');return;}
+      const btn=document.querySelector('[data-template-id="add-btn"]'); btn.disabled=true;btn.style.opacity='0.5';
+      const r=await window.dataSdk.create({title:v,category:document.getElementById('cat-sel').value,completed:false,completed_at:''});
+      btn.disabled=false;btn.style.opacity=''; if(r.isOk)inp.value=''; else toast('Add failed');
+    });
+
+    (async()=>{
+      loader.classList.remove('hidden');
+      const r=await window.dataSdk.init({onDataChanged(d){tasks=d;render(d);updProg(d);updBadges(d);limitWarn.classList.toggle('hidden',d.length<999);loader.classList.add('hidden');}});
+      if(r.isError) loader.innerHTML='<span class="text-red-400">Failed to load</span>';
+    })();
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9fd3eefdc0b7d7bf',t:'MTc3OTAzNDY1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
