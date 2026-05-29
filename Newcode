@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CallCraft Practice</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0d1726;
+      --panel:#122033;
+      --panel-2:#18283c;
+      --line:rgba(255,255,255,.11);
+      --muted:#93a1b3;
+      --cream:#f5efe4;
+      --mint:#9fe3c7;
+      --mint-strong:#75d5af;
+      --amber:#f2bf72;
+      --rose:#f08b86;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'DM Sans', sans-serif;
+      color:var(--cream);
+      min-height:100%;
+    }
+    .app-shell{
+      width:100%;
+      min-height:calc(100 * min(var(--vh, 1vh), 1vh));
+      background:
+        radial-gradient(circle at top left, rgba(67,119,112,.28), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(32,68,105,.32), transparent 30%),
+        #0c1624;
+      position:relative;
+      overflow:hidden;
+    }
+    .app-shell:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:42px 42px;
+      opacity:.45;
+      pointer-events:none;
+    }
+    .glass{
+      background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+      border:1px solid var(--line);
+      box-shadow:0 24px 60px rgba(0,0,0,.22);
+      backdrop-filter:blur(18px);
+    }
+    .serif{font-family:'Fraunces', serif}
+    .choice-card{
+      transition:.25s ease;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.035);
+    }
+    .choice-card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(159,227,199,.55);
+      background:rgba(159,227,199,.06);
+    }
+    .choice-card.selected{
+      border-color:var(--mint);
+      background:rgba(159,227,199,.11);
+      box-shadow:0 0 0 1px rgba(159,227,199,.2) inset;
+    }
+    .choice-card.incorrect{
+      border-color:rgba(240,139,134,.75);
+      background:rgba(240,139,134,.09);
+    }
+    .choice-card.correct{
+      border-color:rgba(159,227,199,.9);
+      background:rgba(159,227,199,.12);
+    }
+    .progress-fill{transition:width .35s ease}
+    .score-ring{
+      background:conic-gradient(var(--mint) 0deg, var(--mint) 0deg, rgba(255,255,255,.08) 0deg);
+      transition:background .35s ease;
+    }
+    .fade-in{animation:fadeIn .45s ease both}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:translateY(0)}}
+    .pulse-dot{animation:pulse 1.8s infinite}
+    @keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+    .focus-ring:focus-visible{outline:2px solid var(--mint); outline-offset:3px}
+    @media (max-width: 1024px){
+      .main-grid{grid-template-columns:1fr}
+    }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ <script src="/_sdk/telemetry_sdk.js"></script></head>
+ <body data-template-id="__page-root" style="background: rgb(12, 22, 36);">
+  <div class="app-shell">
+   <div class="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 py-6 sm:py-8">
+    <header class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between mb-8">
+     <div class="flex items-center gap-4">
+      <div class="w-11 h-11 rounded-2xl bg-[#9fe3c7] text-[#0d1726] grid place-items-center shadow-lg">
+       <i data-lucide="headphones" class="w-5 h-5"></i>
+      </div>
+      <div>
+       <p data-template-id="app-eyebrow" class="canva-text text-[11px] uppercase tracking-[0.22em] text-[#9fe3c7] font-semibold mb-1" style="color: rgb(159, 227, 199); font-weight: 700; font-style: normal; font-size: 11px; letter-spacing: 0.22rem;">Agent training studio</p>
+       <h1 data-template-id="app-title" class="canva-text serif text-3xl sm:text-4xl leading-none" style="color: rgb(245, 239, 228); font-weight: 700; font-style: normal; font-size: 32px;">CallCraft</h1>
+      </div>
+     </div>
+     <div class="flex flex-wrap items-center gap-3">
+      <div class="px-3 py-2 rounded-full border border-white/10 bg-white/[0.03] flex items-center gap-2">
+       <span class="w-2 h-2 rounded-full bg-[#9fe3c7] pulse-dot"></span> <span data-template-id="session-badge" class="canva-text text-xs uppercase tracking-[0.16em] text-[#c7d4d4]" style="color: rgb(199, 212, 212); font-weight: 400; font-style: normal; font-size: 12px; letter-spacing: 0.16rem;">Practice mode</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] text-sm text-[#c9d2df]">
+       <i data-lucide="clock-3" class="w-4 h-4 text-[#9fe3c7]"></i> <span id="session-time">06 min</span>
+      </div>
+     </div>
+    </header>
+    <main>
+     <div id="practice-view" class="main-grid grid grid-cols-[minmax(0,1.55fr)_minmax(320px,.85fr)] gap-6">
+      <section class="space-y-6">
+       <section data-template-id="scenario-card" class="canva-card glass rounded-[26px] p-6 sm:p-7" style="background: linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.024));">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+         <div>
+          <p data-template-id="scenario-label" class="canva-text text-xs uppercase tracking-[0.2em] text-[#9fe3c7] font-semibold mb-3" style="color: rgb(159, 227, 199); font-weight: 700; font-style: normal; font-size: 12px; letter-spacing: 0.2rem;">Scenario 01</p>
+          <h2 data-template-id="scenario-title" class="canva-text serif text-3xl sm:text-4xl leading-tight mb-3" style="color: rgb(245, 239, 228); font-weight: 700; font-style: normal; font-size: 24px;">Cancellation save</h2>
+          <p data-template-id="scenario-description" class="canva-text text-[#aeb9c7] max-w-2xl leading-7" style="color: rgb(174, 185, 199); font-weight: 400; font-style: normal; font-size: 16px; line-height: 1.6;">Practice turning a subscription cancellation into a retention win. Use empathy, clarify the real objection, offer a solution, and close with confidence.</p>
+         </div>
+         <div class="shrink-0 rounded-2xl bg-[#0f1b2b] border border-white/10 px-4 py-3 min-w-[145px]">
+          <p class="text-[11px] uppercase tracking-[0.16em] text-[#8291a4] mb-1">Progress</p>
+          <div class="flex items-end gap-1">
+           <span id="step-current" class="text-2xl font-semibold text-[#f5efe4]">1</span> <span class="text-[#7d8b9e] mb-1">/ 4 steps</span>
+          </div>
+         </div>
+        </div>
+       </section>
+       <section data-template-id="conversation-card" class="canva-card glass rounded-[26px] overflow-hidden" style="background: linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.024));">
+        <div class="p-5 sm:p-6 border-b border-white/10">
+         <div class="flex items-center justify-between gap-4 mb-5">
+          <div class="flex items-center gap-3">
+           <div class="w-11 h-11 rounded-full bg-[#24364c] grid place-items-center text-[#9fe3c7]">
+            <i data-lucide="user-round" class="w-5 h-5"></i>
+           </div>
+           <div>
+            <p data-template-id="customer-label" class="canva-text text-[11px] uppercase tracking-[0.18em] text-[#8495a8] mb-1" style="color: rgb(132, 149, 168); font-weight: 600; font-style: normal; font-size: 11px; letter-spacing: 0.18rem;">Customer</p>
+            <div class="flex items-center gap-2">
+             <h3 data-template-id="customer-name" class="canva-text font-semibold text-[#f3f0e8]" style="color: rgb(243, 240, 232); font-weight: 600; font-style: normal; font-size: 19px;">Jordan Reid</h3><span class="w-1 h-1 rounded-full bg-[#63748a]"></span>
+             <p data-template-id="customer-role" class="canva-text text-sm text-[#95a3b6]" style="color: rgb(149, 163, 182); font-weight: 400; font-style: normal; font-size: 14px;">Looking to cancel</p>
+            </div>
+           </div>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 text-[#9fe3c7] text-xs">
+           <span class="w-2 h-2 rounded-full bg-[#9fe3c7]"></span> <span>Live scenario</span>
+          </div>
+         </div>
+         <div class="rounded-2xl bg-[#0e1928] border border-white/10 p-5 sm:p-6">
+          <div class="flex items-start gap-3">
+           <i data-lucide="quote" class="w-5 h-5 text-[#9fe3c7] mt-1 shrink-0"></i>
+           <p id="customer-prompt" class="text-lg sm:text-xl leading-8 text-[#edf0eb]"></p>
+          </div>
+         </div>
+        </div>
+        <div class="p-5 sm:p-6">
+         <div class="flex items-center justify-between gap-4 mb-4">
+          <p data-template-id="response-label" class="canva-text text-xs uppercase tracking-[0.18em] text-[#9fe3c7] font-semibold" style="color: rgb(159, 227, 199); font-weight: 700; font-style: normal; font-size: 12px; letter-spacing: 0.18rem;">Choose your response</p><span id="feedback-state" class="text-xs text-[#8c9aad]">Choose the best response</span>
+         </div>
+         <div id="choices" class="space-y-3"></div>
+         <div class="mt-6">
+          <div class="flex justify-between text-xs text-[#8291a4] mb-2">
+           <span>Scenario progress</span> <span id="progress-label">25%</span>
+          </div>
+          <div class="h-2 rounded-full bg-white/[0.07] overflow-hidden">
+           <div id="progress-fill" class="progress-fill h-full rounded-full bg-[#9fe3c7]" style="width:25%"></div>
+          </div>
+         </div>
+         <div class="flex justify-end mt-6">
+          <button id="next-button" type="button" class="focus-ring inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#9fe3c7] text-[#0d1726] font-semibold opacity-50 cursor-not-allowed transition" disabled=""> <span data-template-id="next-button-label" class="canva-text" style="color: rgb(13, 23, 38); font-weight: 700; font-style: normal; font-size: 14px;">Next prompt</span> <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+         </div>
+        </div>
+       </section>
+      </section>
+      <aside class="space-y-6">
+       <section data-template-id="coach-panel" class="canva-panel glass rounded-[26px] p-6" style="background: linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.024));">
+        <div class="flex items-center justify-between gap-4 mb-6">
+         <div>
+          <p data-template-id="coach-title" class="canva-text text-xs uppercase tracking-[0.18em] text-[#9fe3c7] font-semibold mb-2" style="color: rgb(159, 227, 199); font-weight: 700; font-style: normal; font-size: 12px; letter-spacing: 0.18rem;">Live coach</p>
+          <h2 data-template-id="coach-subtitle" class="canva-text serif text-2xl" style="color: rgb(245, 239, 228); font-weight: 700; font-style: normal; font-size: 24px;">Performance pulse</h2>
+         </div>
+         <div class="w-10 h-10 rounded-full border border-white/10 bg-white/[0.04] grid place-items-center text-[#9fe3c7]">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+         </div>
+        </div>
+        <div class="flex items-center gap-5 mb-6">
+         <div id="score-ring" class="score-ring w-28 h-28 rounded-full p-[8px]">
+          <div class="w-full h-full rounded-full bg-[#122033] grid place-items-center">
+           <div class="text-center">
+            <div id="score-value" class="text-3xl font-semibold">
+             0
+            </div>
+            <div class="text-[10px] uppercase tracking-[0.18em] text-[#8b99aa]">
+             score
+            </div>
+           </div>
+          </div>
+         </div>
+         <div>
+          <p data-template-id="score-label" class="canva-text text-sm text-[#97a5b7] mb-2" style="color: rgb(151, 165, 183); font-weight: 400; font-style: normal; font-size: 14px;">Overall performance</p>
+          <p id="score-copy" class="text-[#d8e1df] leading-6 text-sm">Start strong by listening for the customer's main concern.</p>
+         </div>
+        </div>
+        <div class="rounded-2xl bg-[#0e1928] border border-white/10 p-4">
+         <div class="flex items-center gap-2 mb-3 text-[#9fe3c7]">
+          <i data-lucide="message-square-heart" class="w-4 h-4"></i> <span class="text-xs uppercase tracking-[0.16em] font-semibold">Coach note</span>
+         </div>
+         <p id="coach-note" class="text-sm leading-6 text-[#c7d1dc]">Your coach will give instant feedback after each response.</p>
+        </div>
+       </section>
+       <section data-template-id="skills-panel" class="canva-panel glass rounded-[26px] p-6" style="background: linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.024));">
+        <div class="flex items-center justify-between mb-5">
+         <h2 data-template-id="skills-title" class="canva-text serif text-2xl" style="color: rgb(245, 239, 228); font-weight: 700; font-style: normal; font-size: 24px;">Skill signals</h2><i data-lucide="list-checks" class="w-5 h-5 text-[#9fe3c7]"></i>
+        </div>
+        <div class="space-y-4" id="skills-list">
+         <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+           <span id="skill-empathy-icon" class="w-7 h-7 rounded-full border border-white/10 grid place-items-center text-[#7c8b9f]"><i data-lucide="heart" class="w-3.5 h-3.5"></i></span> <span class="text-sm text-[#d9dfdf]">Acknowledge concern</span>
+          </div><span id="skill-empathy" class="text-xs text-[#7f8fa2]">Pending</span>
+         </div>
+         <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+           <span id="skill-clarity-icon" class="w-7 h-7 rounded-full border border-white/10 grid place-items-center text-[#7c8b9f]"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i></span> <span class="text-sm text-[#d9dfdf]">Clarify the issue</span>
+          </div><span id="skill-clarity" class="text-xs text-[#7f8fa2]">Pending</span>
+         </div>
+         <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+           <span id="skill-solution-icon" class="w-7 h-7 rounded-full border border-white/10 grid place-items-center text-[#7c8b9f]"><i data-lucide="route" class="w-3.5 h-3.5"></i></span> <span class="text-sm text-[#d9dfdf]">Offer next step</span>
+          </div><span id="skill-solution" class="text-xs text-[#7f8fa2]">Pending</span>
+         </div>
+         <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+           <span id="skill-close-icon" class="w-7 h-7 rounded-full border border-white/10 grid place-items-center text-[#7c8b9f]"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i></span> <span class="text-sm text-[#d9dfdf]">Close confidently</span>
+          </div><span id="skill-close" class="text-xs text-[#7f8fa2]">Pending</span>
+         </div>
+        </div>
+       </section>
+      </aside>
+     </div>
+     <section id="complete-view" class="hidden fade-in">
+      <div class="max-w-4xl mx-auto glass rounded-[30px] p-7 sm:p-10 text-center">
+       <div class="w-16 h-16 rounded-full bg-[#9fe3c7] text-[#0d1726] grid place-items-center mx-auto mb-6">
+        <i data-lucide="badge-check" class="w-8 h-8"></i>
+       </div>
+       <p data-template-id="complete-kicker" class="canva-text text-xs uppercase tracking-[0.22em] text-[#9fe3c7] font-semibold mb-3" style="color: rgb(159, 227, 199); font-weight: 700; font-style: normal; font-size: 12px; letter-spacing: 0.22rem;">Practice complete</p>
+       <h2 data-template-id="complete-title" class="canva-text serif text-4xl sm:text-5xl mb-4" style="color: rgb(245, 239, 228); font-weight: 700; font-style: normal; font-size: 24px;">That's a solid save.</h2>
+       <p data-template-id="complete-copy" class="canva-text text-[#b6c2cf] leading-7 max-w-2xl mx-auto mb-8" style="color: rgb(182, 194, 207); font-weight: 400; font-style: normal; font-size: 16px; line-height: 1.6;">Review your retention techniques, note your strongest skill, and run it again to master the cancellation save.</p>
+       <div class="grid sm:grid-cols-3 gap-4 mb-8 text-left">
+        <div class="rounded-2xl bg-[#0e1928] border border-white/10 p-5">
+         <p class="text-xs uppercase tracking-[0.16em] text-[#8392a5] mb-2">Final score</p>
+         <div id="final-score" class="text-3xl font-semibold text-[#f5efe4]">
+          0%
+         </div>
+        </div>
+        <div class="rounded-2xl bg-[#0e1928] border border-white/10 p-5">
+         <p class="text-xs uppercase tracking-[0.16em] text-[#8392a5] mb-2">Strongest skill</p>
+         <div id="final-strength" class="text-lg font-semibold text-[#f5efe4]">
+          Empathy
+         </div>
+        </div>
+        <div class="rounded-2xl bg-[#0e1928] border border-white/10 p-5">
+         <p class="text-xs uppercase tracking-[0.16em] text-[#8392a5] mb-2">Next focus</p>
+         <div id="final-focus" class="text-lg font-semibold text-[#f5efe4]">
+          Clarifying questions
+         </div>
+        </div>
+       </div>
+       <div class="rounded-2xl bg-[#0e1928] border border-white/10 p-5 text-left mb-8">
+        <div class="flex items-center gap-2 text-[#9fe3c7] mb-3">
+         <i data-lucide="sparkles" class="w-4 h-4"></i> <span class="text-xs uppercase tracking-[0.16em] font-semibold">Coach wrap-up</span>
+        </div>
+        <p id="final-note" class="text-[#c9d4dd] leading-7">You handled the scenario well. Keep your pace steady and continue pairing empathy with clear next steps.</p>
+       </div><button id="restart-button" type="button" data-template-id="restart-button" class="canva-button focus-ring inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#9fe3c7] text-[#0d1726] font-semibold" style="background: rgb(159, 227, 199); color: rgb(13, 23, 38); font-weight: 700; font-style: normal; font-size: 14px;">Restart practice</button>
+      </div>
+     </section>
+    </main>
+   </div>
+  </div>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+    const steps = [
+      {
+        prompt: "Hi, I'm calling because I'd like to cancel my subscription. It's just not fitting into my budget right now.",
+        choices: [
+          "I understand this is frustrating, and I’m sorry for the trouble. Let me review the billing activity and get this sorted for you.",
+          "That usually happens when there are two accounts. Did you maybe sign up twice?",
+          "I can help with that. Please hold while I check your account."
+        ],
+        correct: 0,
+        score: 25,
+        note: "Excellent move. You validated their concern and asked permission before pivoting — that builds trust.",
+        scoreCopy: "You led with empathy and a clear offer, not resistance.",
+        skill: "empathy"
+      },
+      {
+        prompt: "Okay, thanks. I just don’t want to have to call back again about this.",
+        choices: [
+          "I completely understand. To make sure I resolve this properly, I’m going to confirm the last four digits of the payment method and review both charges with you.",
+          "You shouldn't have to call again if billing fixes it.",
+          "No problem, I’ll just refund one of them right away."
+        ],
+        correct: 0,
+        score: 25,
+        note: "Nice clarification. You reassured the customer while explaining exactly what you need next.",
+        scoreCopy: "You’re building confidence by making the process clear.",
+        skill: "clarity"
+      },
+      {
+        prompt: "The last four digits are 4821. Can you see what happened?",
+        choices: [
+          "Yes, I can see the duplicate renewal. I’m submitting the refund now, and it should return to your card within 3–5 business days.",
+          "Yes, there are two charges here.",
+          "Looks like a duplicate. You’ll probably see a refund soon."
+        ],
+        correct: 0,
+        score: 25,
+        note: "Great solution language. You named the issue, explained the action, and set a realistic expectation.",
+        scoreCopy: "Clear next steps help the customer feel taken care of.",
+        skill: "solution"
+      },
+      {
+        prompt: "Alright, that helps. Is there anything else I need to do?",
+        choices: [
+          "You’re all set. I’ve also added a note to your account, and I’ll send a confirmation email shortly so you have this in writing.",
+          "No, that's it.",
+          "Just keep an eye on your statement and call us if it doesn’t show up."
+        ],
+        correct: 0,
+        score: 25,
+        note: "Strong close. You reduced future effort and ended with confidence.",
+        scoreCopy: "That was a polished, reassuring close.",
+        skill: "close"
+      }
+    ];
+
+    let current = 0;
+    let totalScore = 0;
+    let answered = false;
+    const completedSkills = new Set();
+
+    const promptEl = document.getElementById('customer-prompt');
+    const choicesEl = document.getElementById('choices');
+    const nextButton = document.getElementById('next-button');
+    const feedbackState = document.getElementById('feedback-state');
+    const coachNote = document.getElementById('coach-note');
+    const scoreValue = document.getElementById('score-value');
+    const scoreRing = document.getElementById('score-ring');
+    const scoreCopy = document.getElementById('score-copy');
+    const progressFill = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const stepCurrent = document.getElementById('step-current');
+
+    function renderStep(){
+      answered = false;
+      const step = steps[current];
+      promptEl.textContent = step.prompt;
+      choicesEl.innerHTML = '';
+      step.choices.forEach((choice, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'choice-card focus-ring w-full text-left rounded-2xl p-4 sm:p-5 flex gap-4 items-start';
+        button.innerHTML = `
+          <span class="shrink-0 w-7 h-7 rounded-full border border-white/10 grid place-items-center text-xs text-[#9fe3c7]">${String.fromCharCode(65 + index)}</span>
+          <span class="text-[#e5eceb] leading-6">${choice}</span>
+        `;
+        button.addEventListener('click', () => selectChoice(index, button));
+        choicesEl.appendChild(button);
+      });
+      stepCurrent.textContent = String(current + 1);
+      const pct = ((current + 1) / steps.length) * 100;
+      progressFill.style.width = pct + '%';
+      progressLabel.textContent = Math.round(pct) + '%';
+      feedbackState.textContent = 'Choose the best response';
+      nextButton.disabled = true;
+      nextButton.classList.add('opacity-50','cursor-not-allowed');
+      nextButton.classList.remove('hover:bg-[#b7efd8]');
+      if(current === steps.length - 1){
+        nextButton.querySelector('span').textContent = 'See results';
+      } else {
+        nextButton.querySelector('span').textContent = 'Next prompt';
+      }
+    }
+
+    function selectChoice(index, button){
+      if(answered) return;
+      answered = true;
+      const step = steps[current];
+      const all = [...choicesEl.children];
+      all.forEach((el, i) => {
+        el.disabled = true;
+        if(i === step.correct) el.classList.add('correct');
+      });
+      button.classList.add(index === step.correct ? 'selected' : 'incorrect');
+
+      const isCorrect = index === step.correct;
+      if(isCorrect){
+        totalScore += step.score;
+        completedSkills.add(step.skill);
+        feedbackState.textContent = 'Strong response';
+        coachNote.textContent = step.note;
+        scoreCopy.textContent = step.scoreCopy;
+        updateSkill(step.skill, true);
+      } else {
+        feedbackState.textContent = 'Good try — review the stronger option';
+        coachNote.textContent = "Look for the response that combines empathy, clarity, and a confident next step.";
+        scoreCopy.textContent = "You’re still building the habit — notice how the best response reduces customer effort.";
+        updateSkill(step.skill, false);
+      }
+      updateScore();
+      nextButton.disabled = false;
+      nextButton.classList.remove('opacity-50','cursor-not-allowed');
+      nextButton.classList.add('hover:bg-[#b7efd8]');
+    }
+
+    function updateScore(){
+      scoreValue.textContent = totalScore;
+      const deg = totalScore * 3.6;
+      scoreRing.style.background = `conic-gradient(var(--mint) ${deg}deg, rgba(255,255,255,.08) ${deg}deg)`;
+    }
+
+    function updateSkill(skill, success){
+      const status = document.getElementById(`skill-${skill}`);
+      const icon = document.getElementById(`skill-${skill}-icon`);
+      status.textContent = success ? 'Complete' : 'Practice';
+      status.className = success ? 'text-xs text-[#9fe3c7]' : 'text-xs text-[#f2bf72]';
+      icon.className = success
+        ? 'w-7 h-7 rounded-full border border-[#9fe3c7]/40 bg-[#9fe3c7]/10 grid place-items-center text-[#9fe3c7]'
+        : 'w-7 h-7 rounded-full border border-[#f2bf72]/40 bg-[#f2bf72]/10 grid place-items-center text-[#f2bf72]';
+    }
+
+    nextButton.addEventListener('click', () => {
+      if(!answered) return;
+      if(current < steps.length - 1){
+        current++;
+        renderStep();
+      } else {
+        showComplete();
+      }
+    });
+
+    function showComplete(){
+      document.getElementById('practice-view').classList.add('hidden');
+      document.getElementById('complete-view').classList.remove('hidden');
+      document.getElementById('final-score').textContent = totalScore + '%';
+      document.getElementById('final-strength').textContent = totalScore >= 75 ? 'Customer reassurance' : 'Empathy opener';
+      document.getElementById('final-focus').textContent = totalScore >= 75 ? 'Consistency under pressure' : 'Clear next steps';
+      document.getElementById('final-note').textContent =
+        totalScore >= 75
+          ? 'You delivered a confident support experience. Keep this same calm, specific tone when the customer is more emotional or the issue is less clear.'
+          : 'You have a solid foundation. On your next round, focus on pairing empathy with a specific action so the customer always knows what happens next.';
+    }
+
+    document.getElementById('restart-button').addEventListener('click', () => {
+      current = 0;
+      totalScore = 0;
+      completedSkills.clear();
+      ['empathy','clarity','solution','close'].forEach(skill => {
+        const status = document.getElementById(`skill-${skill}`);
+        const icon = document.getElementById(`skill-${skill}-icon`);
+        status.textContent = 'Pending';
+        status.className = 'text-xs text-[#7f8fa2]';
+        icon.className = 'w-7 h-7 rounded-full border border-white/10 grid place-items-center text-[#7c8b9f]';
+      });
+      scoreCopy.textContent = 'Start strong by listening for the customer\\'s main concern.';
+      coachNote.textContent = 'Your coach will give instant feedback after each response.';
+      updateScore();
+      document.getElementById('complete-view').classList.add('hidden');
+      document.getElementById('practice-view').classList.remove('hidden');
+      renderStep();
+    });
+
+    renderStep();
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a032617bbda6d67c',t:'MTc4MDAyNTAxMA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
