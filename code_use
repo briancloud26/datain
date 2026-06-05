@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#17211c;
+      --muted:#6b746f;
+      --paper:#f4f1ea;
+      --line:#d8d2c7;
+      --forest:#173f31;
+      --forest-2:#255846;
+      --cream:#fbfaf6;
+      --sage:#dfe8dd;
+      --sand:#eee3d2;
+      --lav:#e4e1ee;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'DM Sans',sans-serif;color:var(--ink);min-width:320px}
+    .display-font{font-family:'Fraunces',serif}
+    .app-shell{
+      width:100%;
+      min-height:calc(100 * min(var(--vh, 1vh), 1vh));
+      background:
+        radial-gradient(circle at 82% 5%, rgba(203,218,203,.58), transparent 24%),
+        radial-gradient(circle at 6% 16%, rgba(255,255,255,.82), transparent 20%),
+        linear-gradient(135deg,#f7f4ed 0%,#eee8dd 100%);
+    }
+    .noise{
+      background-image:radial-gradient(rgba(23,33,28,.035) 1px,transparent 1px);
+      background-size:18px 18px;
+    }
+    .glass-card{
+      background:rgba(251,250,246,.88);
+      backdrop-filter:blur(14px);
+      border:1px solid rgba(216,210,199,.88);
+      box-shadow:0 18px 52px rgba(31,41,35,.075);
+    }
+    .focus-ring:focus-visible{outline:3px solid rgba(37,88,70,.28);outline-offset:2px}
+    .table-scroll::-webkit-scrollbar{height:8px}
+    .table-scroll::-webkit-scrollbar-thumb{background:#c8c0b4;border-radius:999px}
+    .modal-backdrop{background:rgba(17,24,20,.42);backdrop-filter:blur(6px)}
+    .row-enter{animation:rowIn .32s ease both}
+    @keyframes rowIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .chart-line{fill:none;stroke:#255846;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .chart-area{fill:url(#areaGradient)}
+    .chart-dot{fill:#fbfaf6;stroke:#255846;stroke-width:3}
+    .metric-card{transition:transform .25s ease, box-shadow .25s ease}
+    .metric-card:hover{transform:translateY(-3px);box-shadow:0 22px 58px rgba(31,41,35,.11)}
+  </style>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ <script src="/_sdk/telemetry_sdk.js"></script></head>
+ <body data-template-id="__page-root" style="background: linear-gradient(135deg, rgb(247, 244, 237), rgb(239, 233, 222));">
+  <div class="app-shell noise w-full">
+   <header class="w-full px-5 sm:px-8 lg:px-10 pt-8 lg:pt-10">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div>
+       <p data-template-id="hero-kicker" class="canva-text uppercase tracking-[0.22em] text-xs font-semibold mb-3" style="color: rgb(109, 119, 111); font-weight: 700; font-style: normal; font-size: 11px; letter-spacing: 0.18rem;">Quarterly overview</p>
+       <h1 data-template-id="dashboard-title" class="canva-text display-font leading-[1.02] max-w-3xl" style="color: rgb(23, 63, 49); font-weight: 700; font-style: normal; font-size: 54px; line-height: 1.02;">Sales, in a clearer light.</h1>
+       <p data-template-id="dashboard-subtitle" class="canva-text mt-4 max-w-2xl leading-7" style="color: rgb(102, 113, 105); font-weight: 400; font-style: normal; font-size: 17px; line-height: 1.6;">Track every customer, deal and dollar from one calm workspace built for better decisions.</p>
+      </div><button id="open-modal" data-template-id="add-sale-button" class="canva-button focus-ring inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5 hover:shadow-lg self-start lg:self-auto" type="button" style="background: rgb(23, 63, 49); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Add sale</button>
+     </div>
+    </div>
+   </header>
+   <main class="w-full px-5 sm:px-8 lg:px-10 pb-10">
+    <div class="max-w-7xl mx-auto">
+     <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-10" aria-label="Sales summary">
+      <article data-template-id="metric-card-1" class="canva-card metric-card glass-card rounded-[22px] p-5" style="background: rgb(251, 250, 246);">
+       <div class="flex items-start justify-between gap-4">
+        <div>
+         <p data-template-id="metric-revenue-label" class="canva-text text-sm font-medium" style="color: rgb(107, 116, 111); font-weight: 600; font-style: normal; font-size: 15px;">Total revenue</p>
+         <p id="metric-revenue" class="display-font text-3xl mt-3 text-[#173f31]">$0</p>
+        </div><span class="w-10 h-10 rounded-full bg-[#e1eadf] flex items-center justify-center text-[#255846]"><i data-lucide="badge-dollar-sign" class="w-5 h-5"></i></span>
+       </div>
+      </article>
+      <article data-template-id="metric-card-2" class="canva-card metric-card glass-card rounded-[22px] p-5" style="background: rgb(251, 250, 246);">
+       <div class="flex items-start justify-between gap-4">
+        <div>
+         <p data-template-id="metric-sales-label" class="canva-text text-sm font-medium" style="color: rgb(107, 116, 111); font-weight: 600; font-style: normal; font-size: 15px;">Total sales</p>
+         <p id="metric-sales" class="display-font text-3xl mt-3 text-[#173f31]">0</p>
+        </div><span class="w-10 h-10 rounded-full bg-[#eee3d2] flex items-center justify-center text-[#8a693e]"><i data-lucide="shopping-bag" class="w-5 h-5"></i></span>
+       </div>
+      </article>
+      <article data-template-id="metric-card-3" class="canva-card metric-card glass-card rounded-[22px] p-5" style="background: rgb(251, 250, 246);">
+       <div class="flex items-start justify-between gap-4">
+        <div>
+         <p data-template-id="metric-won-label" class="canva-text text-sm font-medium" style="color: rgb(107, 116, 111); font-weight: 600; font-style: normal; font-size: 15px;">Won deals</p>
+         <p id="metric-won" class="display-font text-3xl mt-3 text-[#173f31]">0</p>
+        </div><span class="w-10 h-10 rounded-full bg-[#e1eadf] flex items-center justify-center text-[#255846]"><i data-lucide="trophy" class="w-5 h-5"></i></span>
+       </div>
+      </article>
+      <article data-template-id="metric-card-4" class="canva-card metric-card glass-card rounded-[22px] p-5" style="background: rgb(251, 250, 246);">
+       <div class="flex items-start justify-between gap-4">
+        <div>
+         <p data-template-id="metric-average-label" class="canva-text text-sm font-medium" style="color: rgb(107, 116, 111); font-weight: 600; font-style: normal; font-size: 15px;">Average sale</p>
+         <p id="metric-average" class="display-font text-3xl mt-3 text-[#173f31]">$0</p>
+        </div><span class="w-10 h-10 rounded-full bg-[#e4e1ee] flex items-center justify-center text-[#675a86]"><i data-lucide="trending-up" class="w-5 h-5"></i></span>
+       </div>
+      </article>
+     </section>
+     <section data-template-id="chart-panel" class="canva-panel glass-card rounded-[28px] mt-6 p-5 sm:p-6 lg:p-7" style="background: rgb(251, 250, 246);">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+       <div>
+        <h2 data-template-id="chart-title" class="canva-text display-font" style="color: rgb(23, 63, 49); font-weight: 700; font-style: normal; font-size: 23px;">Sales performance</h2>
+        <p data-template-id="chart-subtitle" class="canva-text mt-2" style="color: rgb(115, 123, 117); font-weight: 400; font-style: normal; font-size: 14px;">A six-month view of revenue momentum.</p>
+       </div>
+       <div class="flex items-center gap-2 text-sm text-[#6b746f]"><span class="w-3 h-3 rounded-full bg-[#255846]"></span> <span>Revenue</span>
+       </div>
+      </div>
+      <div class="w-full overflow-hidden">
+       <svg id="sales-chart" viewBox="0 0 760 260" preserveAspectRatio="none" class="w-full h-[240px]"><defs>
+         <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#255846" stop-opacity=".22"></stop>
+          <stop offset="100%" stop-color="#255846" stop-opacity="0"></stop>
+         </linearGradient>
+        </defs> <g id="chart-grid"></g> <path id="chart-area" class="chart-area"></path> <path id="chart-line" class="chart-line"></path> <g id="chart-dots"></g>
+       </svg>
+       <div id="chart-labels" class="grid grid-cols-6 gap-2 text-[11px] uppercase tracking-[0.12em] text-[#7c857e] mt-1"></div>
+      </div>
+     </section>
+     <section data-template-id="records-panel" class="canva-panel glass-card rounded-[28px] mt-6 overflow-hidden" style="background: rgb(251, 250, 246);">
+      <div class="p-5 sm:p-6 lg:p-7 border-b border-[#ded7cb]">
+       <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-5">
+        <div>
+         <h2 data-template-id="records-title" class="canva-text display-font" style="color: rgb(23, 63, 49); font-weight: 700; font-style: normal; font-size: 23px;">Sales records</h2>
+         <p data-template-id="records-subtitle" class="canva-text mt-2" style="color: rgb(115, 123, 117); font-weight: 400; font-style: normal; font-size: 14px;">Search, scan and keep your pipeline moving.</p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+         <div class="w-full sm:w-72"><label data-template-id="search-label" for="search-input" class="canva-text block text-xs font-semibold uppercase tracking-[0.14em] mb-2" style="color: rgb(119, 128, 120); font-weight: 700; font-style: normal; font-size: 11px; letter-spacing: 0.12rem;">Search</label>
+          <div class="relative"><i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#7e877f]"></i> <input id="search-input" data-template-id="search-input" class="canva-input focus-ring w-full rounded-xl border border-[#d8d2c7] bg-[#fffdf8] pl-10 pr-3 py-3 text-sm outline-none transition" type="text" placeholder="Customer, email or product" style="color: rgb(23, 63, 49); font-weight: 400; font-style: normal; font-size: 15px;">
+          </div>
+         </div>
+         <div class="w-full sm:w-48"><label data-template-id="status-label" for="status-filter" class="canva-text block text-xs font-semibold uppercase tracking-[0.14em] mb-2" style="color: rgb(119, 128, 120); font-weight: 700; font-style: normal; font-size: 11px; letter-spacing: 0.12rem;">Filter status</label> <select id="status-filter" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-[#fffdf8] px-3 py-3 text-sm outline-none transition"> <option value="all">All statuses</option> <option value="Won">Won</option> <option value="Pending">Pending</option> <option value="Lost">Lost</option> </select>
+         </div>
+        </div>
+       </div>
+       <div id="message" class="hidden mt-4 rounded-xl px-4 py-3 text-sm"></div>
+      </div>
+      <div id="empty-state" class="hidden px-6 py-16 text-center">
+       <div class="w-14 h-14 rounded-full bg-[#e6ecdf] flex items-center justify-center mx-auto text-[#255846]"><i data-lucide="receipt-text" class="w-6 h-6"></i>
+       </div>
+       <h3 data-template-id="empty-state-title" class="canva-text display-font mt-5" style="color: rgb(23, 63, 49); font-weight: 700; font-style: normal; font-size: 18px;">No sales to show</h3>
+       <p data-template-id="empty-state-copy" class="canva-text mt-2 max-w-md mx-auto" style="color: rgb(115, 123, 117); font-weight: 400; font-style: normal; font-size: 14px; line-height: 1.5;">Try a different search or add a new sale to start building your dashboard.</p>
+      </div>
+      <div id="table-wrap" class="table-scroll overflow-x-auto">
+       <table class="w-full min-w-[1040px]">
+        <thead>
+         <tr class="border-b border-[#e2dbcf] text-left">
+          <th class="px-6 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f]">Customer</th>
+          <th class="px-4 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f]">Email</th>
+          <th class="px-4 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f]">Product</th>
+          <th class="px-4 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f]">Amount</th>
+          <th class="px-4 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f]">Status</th>
+          <th class="px-4 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f]">Date</th>
+          <th class="px-6 py-4 text-xs uppercase tracking-[0.14em] font-semibold text-[#6b746f] text-right">Actions</th>
+         </tr>
+        </thead>
+        <tbody id="sales-body"></tbody>
+       </table>
+      </div>
+     </section>
+    </div>
+   </main>
+  </div>
+  <template id="sale-row-template">
+   <tr class="sale-row row-enter border-b border-[#ece6dc] last:border-0">
+    <td class="px-6 py-5">
+     <div class="font-semibold text-[#20342b] customer-cell"></div></td>
+    <td class="px-4 py-5 text-sm text-[#59625c] email-cell"></td>
+    <td class="px-4 py-5 text-sm text-[#59625c] product-cell"></td>
+    <td class="px-4 py-5 font-semibold text-[#20342b] amount-cell"></td>
+    <td class="px-4 py-5"><span class="status-cell inline-flex rounded-full px-3 py-1 text-xs font-semibold"></span></td>
+    <td class="px-4 py-5 text-sm text-[#59625c] date-cell"></td>
+    <td class="px-6 py-5">
+     <div class="flex justify-end items-center gap-2 normal-actions"><button class="delete-btn focus-ring rounded-full p-2 text-[#8b5d54] hover:bg-[#f3e6e1] transition" type="button" aria-label="Delete sale"> <i data-lucide="trash-2" class="w-4 h-4"></i> </button>
+     </div>
+     <div class="hidden justify-end items-center gap-2 confirm-actions"><button class="cancel-delete focus-ring rounded-full px-3 py-1.5 text-xs font-semibold text-[#6b746f] bg-[#f1eee8] hover:bg-[#e9e3da] transition" type="button">Cancel</button> <button class="confirm-delete focus-ring rounded-full px-3 py-1.5 text-xs font-semibold text-white bg-[#8a4f48] hover:bg-[#74423c] transition" type="button">Delete</button>
+     </div></td>
+   </tr>
+  </template>
+  <div id="modal" class="hidden fixed inset-0 z-50">
+   <div class="modal-backdrop absolute inset-0"></div>
+   <div class="relative z-10 min-h-full flex items-center justify-center p-4">
+    <section class="w-full max-w-xl rounded-[26px] bg-[#fbfaf6] shadow-2xl border border-[#ded7cb] overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+     <div class="p-6 border-b border-[#e2dbcf]">
+      <h2 id="modal-heading" data-template-id="modal-title" class="canva-text display-font" style="color: rgb(23, 63, 49); font-weight: 700; font-style: normal; font-size: 23px;">Add a new sale</h2>
+      <p data-template-id="modal-subtitle" class="canva-text mt-2" style="color: rgb(115, 123, 117); font-weight: 400; font-style: normal; font-size: 14px;">Capture the details and keep your numbers current.</p>
+     </div>
+     <form id="sale-form" class="p-6 space-y-4">
+      <div><label data-template-id="customer-label" for="customer-name" class="canva-text block text-sm font-semibold mb-2" style="color: rgb(51, 69, 58); font-weight: 600; font-style: normal; font-size: 15px;">Customer name</label> <input id="customer-name" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-white px-3 py-3 text-sm outline-none" type="text" required="">
+      </div>
+      <div><label data-template-id="email-label" for="customer-email" class="canva-text block text-sm font-semibold mb-2" style="color: rgb(51, 69, 58); font-weight: 600; font-style: normal; font-size: 15px;">Customer email</label> <input id="customer-email" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-white px-3 py-3 text-sm outline-none" type="email" required="">
+      </div>
+      <div><label data-template-id="product-label" for="product" class="canva-text block text-sm font-semibold mb-2" style="color: rgb(51, 69, 58); font-weight: 600; font-style: normal; font-size: 15px;">Product</label> <input id="product" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-white px-3 py-3 text-sm outline-none" type="text" required="">
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+       <div><label data-template-id="amount-label" for="amount" class="canva-text block text-sm font-semibold mb-2" style="color: rgb(51, 69, 58); font-weight: 600; font-style: normal; font-size: 15px;">Amount</label> <input id="amount" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-white px-3 py-3 text-sm outline-none" type="number" min="0" step="0.01" required="">
+       </div>
+       <div><label data-template-id="status-field-label" for="status" class="canva-text block text-sm font-semibold mb-2" style="color: rgb(51, 69, 58); font-weight: 600; font-style: normal; font-size: 15px;">Status</label> <select id="status" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-white px-3 py-3 text-sm outline-none" required=""> <option value="Won">Won</option> <option value="Pending">Pending</option> <option value="Lost">Lost</option> </select>
+       </div>
+      </div>
+      <div><label data-template-id="date-label" for="date" class="canva-text block text-sm font-semibold mb-2" style="color: rgb(51, 69, 58); font-weight: 600; font-style: normal; font-size: 15px;">Date</label> <input id="date" class="focus-ring w-full rounded-xl border border-[#d8d2c7] bg-white px-3 py-3 text-sm outline-none" type="date" required="">
+      </div>
+      <div id="form-error" class="hidden rounded-xl bg-[#f5e8e5] px-4 py-3 text-sm text-[#7a403a]"></div>
+      <div class="flex justify-end gap-3 pt-2"><button id="close-modal" data-template-id="cancel-button" class="canva-button focus-ring rounded-full px-4 py-2.5 text-sm font-semibold transition" type="button" style="background: rgb(236, 231, 222); color: rgb(66, 80, 71); font-weight: 600; font-style: normal; font-size: 15px;">Cancel</button> <button id="save-sale" data-template-id="save-button" class="canva-button focus-ring rounded-full px-5 py-2.5 text-sm font-semibold inline-flex items-center gap-2 transition" type="submit" style="background: rgb(23, 63, 49); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Save sale</button>
+      </div>
+     </form>
+    </section>
+   </div>
+  </div>
+  <script>
+    const state={records:[],search:'',status:'all'};
+    const salesBody=document.getElementById('sales-body');
+    const emptyState=document.getElementById('empty-state');
+    const tableWrap=document.getElementById('table-wrap');
+    const searchInput=document.getElementById('search-input');
+    const statusFilter=document.getElementById('status-filter');
+    const modal=document.getElementById('modal');
+    const saleForm=document.getElementById('sale-form');
+    const formError=document.getElementById('form-error');
+    const message=document.getElementById('message');
+    const saveButton=document.getElementById('save-sale');
+    const saveLabel=saveButton.querySelector('.save-label');
+    const saveSpinner=saveButton.querySelector('.save-spinner');
+    const currency=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+    const dateFormatter=new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+    function filteredRecords(){
+      return state.records.filter(r=>{
+        const q=state.search.trim().toLowerCase();
+        const text=[r.customer_name,r.customer_email,r.product].join(' ').toLowerCase();
+        return (!q||text.includes(q))&&(state.status==='all'||r.status===state.status);
+      });
+    }
+
+    function formatDate(v){
+      const d=new Date(v);
+      return Number.isNaN(d.getTime())?'—':dateFormatter.format(d);
+    }
+
+    function getStatusClasses(s){
+      return s==='Won'?'bg-[#e1eadf] text-[#2c684f]':s==='Lost'?'bg-[#f2e0dc] text-[#96564d]':'bg-[#eee6d7] text-[#8b6b39]';
+    }
+
+    function updateMetrics(){
+      const total=state.records.reduce((a,r)=>a+Number(r.amount||0),0);
+      const count=state.records.length;
+      const won=state.records.filter(r=>r.status==='Won').length;
+      document.getElementById('metric-revenue').textContent=currency.format(total);
+      document.getElementById('metric-sales').textContent=count;
+      document.getElementById('metric-won').textContent=won;
+      document.getElementById('metric-average').textContent=currency.format(count?total/count:0);
+    }
+
+    function renderChart(){
+      const now=new Date();
+      const months=[];
+      for(let i=5;i>=0;i--){ months.push(new Date(now.getFullYear(),now.getMonth()-i,1)); }
+      const values=months.map(m=>state.records.filter(r=>{
+        const d=new Date(r.date);
+        return d.getFullYear()===m.getFullYear()&&d.getMonth()===m.getMonth();
+      }).reduce((a,r)=>a+Number(r.amount||0),0));
+      const max=Math.max(...values,1);
+      const width=760,height=220,padX=24,padY=20;
+      const points=values.map((v,i)=>{
+        const x=padX+i*((width-padX*2)/(values.length-1));
+        const y=padY+(height-padY*2)*(1-v/max);
+        return [x,y];
+      });
+      document.getElementById('chart-line').setAttribute('d','M '+points.map(p=>p.join(' ')).join(' L '));
+      document.getElementById('chart-area').setAttribute('d','M '+points.map(p=>p.join(' ')).join(' L ')+' L '+points[points.length-1][0]+' '+height+' L '+points[0][0]+' '+height+' Z');
+      document.getElementById('chart-dots').innerHTML=points.map(p=>`<circle class="chart-dot" cx="${p[0]}" cy="${p[1]}" r="5"></circle>`).join('');
+      document.getElementById('chart-grid').innerHTML=[0,1,2,3].map(i=>`<line x1="20" x2="740" y1="${30+i*45}" y2="${30+i*45}" stroke="#e6dfd4" stroke-width="1"></line>`).join('');
+      document.getElementById('chart-labels').innerHTML=months.map(m=>`<span>${m.toLocaleString('en-US',{month:'short'})}</span>`).join('');
+    }
+
+    function createRow(record){
+      const frag=document.getElementById('sale-row-template').content.cloneNode(true);
+      const row=frag.querySelector('.sale-row');
+      row.dataset.id=record.__backendId;
+      updateRow(row,record);
+
+      row.querySelector('.delete-btn').addEventListener('click',()=>{
+        row.querySelector('.normal-actions').classList.add('hidden');
+        row.querySelector('.confirm-actions').classList.remove('hidden');
+        row.querySelector('.confirm-actions').classList.add('flex');
+      });
+
+      row.querySelector('.cancel-delete').addEventListener('click',()=>{
+        row.querySelector('.confirm-actions').classList.add('hidden');
+        row.querySelector('.confirm-actions').classList.remove('flex');
+        row.querySelector('.normal-actions').classList.remove('hidden');
+      });
+
+      row.querySelector('.confirm-delete').addEventListener('click',async e=>{
+        const btn=e.currentTarget;
+        btn.textContent='Deleting...';
+        btn.disabled=true;
+        const res=await window.dataSdk.delete(record);
+        if(!res.isOk){
+          showMessage('Could not delete that sale. Please try again.','error');
+          btn.textContent='Delete';
+          btn.disabled=false;
+        }else{
+          showMessage('Sale deleted.','success');
+        }
+      });
+
+      return row;
+    }
+
+    function updateRow(row,r){
+      row.querySelector('.customer-cell').textContent=r.customer_name||'Untitled customer';
+      row.querySelector('.email-cell').textContent=r.customer_email||'—';
+      row.querySelector('.product-cell').textContent=r.product||'—';
+      row.querySelector('.amount-cell').textContent=currency.format(Number(r.amount||0));
+      const status=row.querySelector('.status-cell');
+      status.textContent=r.status||'Pending';
+      status.className='status-cell inline-flex rounded-full px-3 py-1 text-xs font-semibold '+getStatusClasses(r.status);
+      row.querySelector('.date-cell').textContent=formatDate(r.date);
+    }
+
+    function renderRows(){
+      const records=filteredRecords().sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+      const existing=new Map([...salesBody.children].map(r=>[r.dataset.id,r]));
+      records.forEach(r=>{
+        if(existing.has(r.__backendId)){
+          updateRow(existing.get(r.__backendId),r);
+          existing.delete(r.__backendId);
+        }else{
+          salesBody.appendChild(createRow(r));
+        }
+      });
+      existing.forEach(r=>r.remove());
+      emptyState.classList.toggle('hidden',records.length>0);
+      tableWrap.classList.toggle('hidden',records.length===0);
+      lucide.createIcons();
+    }
+
+    function render(){
+      updateMetrics();
+      renderChart();
+      renderRows();
+    }
+
+    function showMessage(text,type){
+      message.textContent=text;
+      message.className='mt-4 rounded-xl px-4 py-3 text-sm '+(type==='error'?'bg-[#f5e8e5] text-[#7a403a]':'bg-[#e5eee5] text-[#2d624d]');
+      message.classList.remove('hidden');
+      clearTimeout(showMessage.timer);
+      showMessage.timer=setTimeout(()=>message.classList.add('hidden'),3200);
+    }
+
+    function openModal(){
+      modal.classList.remove('hidden');
+      document.body.style.overflow='hidden';
+      document.getElementById('date').value=new Date().toISOString().slice(0,10);
+      setTimeout(()=>document.getElementById('customer-name').focus(),50);
+    }
+
+    function closeModal(){
+      modal.classList.add('hidden');
+      document.body.style.overflow='';
+      saleForm.reset();
+      formError.classList.add('hidden');
+      saveSpinner.classList.add('hidden');
+      saveButton.disabled=false;
+      saveLabel.textContent='Save sale';
+    }
+
+    function setCreating(v){
+      saveButton.disabled=v;
+      saveSpinner.classList.toggle('hidden',!v);
+      saveLabel.textContent=v?'Saving':'Save sale';
+    }
+
+    document.getElementById('open-modal').addEventListener('click',openModal);
+    document.getElementById('close-modal').addEventListener('click',closeModal);
+    modal.querySelector('.modal-backdrop').addEventListener('click',closeModal);
+    searchInput.addEventListener('input',e=>{state.search=e.target.value;renderRows();});
+    statusFilter.addEventListener('change',e=>{state.status=e.target.value;renderRows();});
+
+    saleForm.addEventListener('submit',async e=>{
+      e.preventDefault();
+
+      if(state.records.length>=999){
+        formError.textContent='You have reached the 999 record limit. Delete a few records before adding more.';
+        formError.classList.remove('hidden');
+        return;
+      }
+
+      const customer=document.getElementById('customer-name').value.trim();
+      const email=document.getElementById('customer-email').value.trim();
+      const product=document.getElementById('product').value.trim();
+      const amount=Number(document.getElementById('amount').value);
+      const status=document.getElementById('status').value;
+      const date=document.getElementById('date').value;
+
+      if(!customer||!email||!product||!date||Number.isNaN(amount)){
+        formError.textContent='Please complete all fields before saving.';
+        formError.classList.remove('hidden');
+        return;
+      }
+
+      formError.classList.add('hidden');
+      setCreating(true);
+
+      const res=await window.dataSdk.create({
+        customer_name:customer,
+        customer_email:email,
+        product,
+        amount,
+        status,
+        date:new Date(date+'T00:00:00').toISOString()
+      });
+
+      if(!res.isOk){
+        formError.textContent='We could not save this sale. Please try again.';
+        formError.classList.remove('hidden');
+        setCreating(false);
+        return;
+      }
+
+      closeModal();
+      showMessage('Sale added successfully.','success');
+    });
+
+    const dataHandler={
+      onDataChanged(data){
+        state.records=Array.isArray(data)?data:[];
+        render();
+      }
+    };
+
+    async function init(){
+      saveLabel.textContent='Save sale';
+      lucide.createIcons();
+      const result=await window.dataSdk.init(dataHandler);
+      if(!result.isOk) showMessage('We could not load your sales right now.','error');
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a070b312bff7f2d2',t:'MTc4MDY3ODQ2OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
