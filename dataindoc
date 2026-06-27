@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><script src="/_sdk/telemetry_sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Switcher</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Fraunces:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+        :root {
+            --bg: #e8f4f8; --fg: #1a3a4a; --accent: #5ba4c4; --card-bg: #ffffff; --card-border: #c8dfe8;
+        }
+        body { font-family: 'DM Sans', sans-serif; transition: background 0.6s, color 0.6s; }
+        .mood-btn { transition: transform 0.2s, box-shadow 0.2s; }
+        .mood-btn:hover { transform: translateY(-2px); }
+        .mood-btn.active { box-shadow: 0 0 0 3px var(--accent); }
+        .hero-img { transition: opacity 0.6s; }
+        .card-item { transition: background 0.5s, border-color 0.5s; }
+
+        [data-mood="calm"] { --bg: #e8f4f8; --fg: #1a3a4a; --accent: #5ba4c4; --card-bg: #ffffff; --card-border: #c8dfe8; }
+        [data-mood="energetic"] { --bg: #1a1028; --fg: #f0e6ff; --accent: #e040fb; --card-bg: #2a1a3e; --card-border: #6a3a8a; }
+        [data-mood="nature"] { --bg: #f0f7ee; --fg: #1a3320; --accent: #4a9c5a; --card-bg: #ffffff; --card-border: #b8d4b0; }
+        [data-mood="warm"] { --bg: #fef5e7; --fg: #3d2200; --accent: #e07020; --card-bg: #ffffff; --card-border: #f0d0a0; }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" data-mood="calm" class="min-h-screen" style="background: rgb(232, 244, 248); color: var(--fg);">
+  <main class="w-full max-w-5xl mx-auto px-4 py-8">
+   <header class="text-center mb-8">
+    <h1 data-template-id="page-title" class="canva-text font-bold" style="font-family: Fraunces, serif; color: rgb(26, 58, 74); font-weight: 700; font-style: normal; font-size: 32px;">Mood Switcher</h1>
+    <p data-template-id="page-subtitle" class="canva-text mt-2 opacity-80" style="color: rgb(26, 58, 74); font-weight: 400; font-style: normal; font-size: 16px;">Select a mood to transform the page</p>
+   </header><!-- Hero images - one per mood, toggle visibility -->
+   <div class="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden mb-8 shadow-lg"><img data-template-id="calm-image" class="canva-image hero-img absolute inset-0 w-full h-full object-cover" loading="lazy" src="https://images.pexels.com/photos/20297347/pexels-photo-20297347.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Calming image of serene ocean waves with a gentle blur"> <img data-template-id="energetic-image" class="canva-image hero-img absolute inset-0 w-full h-full object-cover opacity-0" loading="lazy" src="https://images.pexels.com/photos/14806271/pexels-photo-14806271.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Vibrant abstract image featuring blurred motion and colorful neon lights"> <img data-template-id="nature-image" class="canva-image hero-img absolute inset-0 w-full h-full object-cover opacity-0" loading="lazy" src="https://images.pexels.com/photos/165537/pexels-photo-165537.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Peaceful forest scene with sunlight filtering through green trees"> <img data-template-id="warm-image" class="canva-image hero-img absolute inset-0 w-full h-full object-cover opacity-0" loading="lazy" src="https://images.pexels.com/photos/19500019/pexels-photo-19500019.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="A breathtaking view of a vibrant orange sunset with dramatic clouds">
+   </div><!-- Mood selector -->
+   <nav class="flex flex-wrap justify-center gap-3 mb-10" aria-label="Theme selector"><button type="button" class="mood-btn active px-5 py-2.5 rounded-full font-medium text-sm" style="background:var(--card-bg);border:2px solid var(--card-border);color:var(--fg)" data-select="calm">☁️ Calm</button> <button type="button" class="mood-btn px-5 py-2.5 rounded-full font-medium text-sm" style="background:var(--card-bg);border:2px solid var(--card-border);color:var(--fg)" data-select="energetic">⚡ Energetic</button> <button type="button" class="mood-btn px-5 py-2.5 rounded-full font-medium text-sm" style="background:var(--card-bg);border:2px solid var(--card-border);color:var(--fg)" data-select="nature">🌿 Nature</button> <button type="button" class="mood-btn px-5 py-2.5 rounded-full font-medium text-sm" style="background:var(--card-bg);border:2px solid var(--card-border);color:var(--fg)" data-select="warm">🌅 Warm</button>
+   </nav><!-- Sample cards -->
+   <section class="grid sm:grid-cols-3 gap-5">
+    <div data-template-id="card-1" class="canva-card card-item rounded-xl p-6" style="background: rgb(255, 255, 255); border: 1px solid var(--card-border);">
+     <h3 data-template-id="card-1-title" class="canva-text font-bold mb-2" style="color: rgb(91, 164, 196); font-weight: 700; font-style: normal; font-size: 19px;">Typography</h3>
+     <p data-template-id="card-1-text" class="canva-text text-sm opacity-75" style="color: rgb(26, 58, 74); font-weight: 400; font-style: normal; font-size: 16px;">Fonts adapt to match the emotional tone of each theme.</p>
+    </div>
+    <div data-template-id="card-2" class="canva-card card-item rounded-xl p-6" style="background: rgb(255, 255, 255); border: 1px solid var(--card-border);">
+     <h3 data-template-id="card-2-title" class="canva-text font-bold mb-2" style="color: rgb(91, 164, 196); font-weight: 700; font-style: normal; font-size: 19px;">Color Palette</h3>
+     <p data-template-id="card-2-text" class="canva-text text-sm opacity-75" style="color: rgb(26, 58, 74); font-weight: 400; font-style: normal; font-size: 16px;">Every shade shifts to evoke a distinct atmosphere.</p>
+    </div>
+    <div data-template-id="card-3" class="canva-card card-item rounded-xl p-6" style="background: rgb(255, 255, 255); border: 1px solid var(--card-border);">
+     <h3 data-template-id="card-3-title" class="canva-text font-bold mb-2" style="color: rgb(91, 164, 196); font-weight: 700; font-style: normal; font-size: 19px;">Imagery</h3>
+     <p data-template-id="card-3-text" class="canva-text text-sm opacity-75" style="color: rgb(26, 58, 74); font-weight: 400; font-style: normal; font-size: 16px;">Hero photos change to set the visual mood instantly.</p>
+    </div>
+   </section>
+  </main>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+        const body = document.body;
+        const images = ['calm','energetic','nature','warm'];
+        const imgEls = {
+            calm: document.querySelector('[data-template-id="calm-image"]'),
+            energetic: document.querySelector('[data-template-id="energetic-image"]'),
+            nature: document.querySelector('[data-template-id="nature-image"]'),
+            warm: document.querySelector('[data-template-id="warm-image"]')
+        };
+
+        document.querySelectorAll('[data-select]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mood = btn.dataset.select;
+                body.setAttribute('data-mood', mood);
+                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                images.forEach(m => { imgEls[m].style.opacity = m === mood ? '1' : '0'; });
+            });
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1281d1c94cb3cfd',t:'MTc4MjYwMTcwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
