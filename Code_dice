@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><script src="/_sdk/telemetry_sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Positive Effect Animation</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+        body { margin: 0; overflow: hidden; font-family: 'DM Sans', sans-serif; }
+        canvas { position: fixed; inset: 0; z-index: 0; }
+        .glow-text {
+            text-shadow: 0 0 20px #ff6bff, 0 0 40px #ff6bff, 0 0 80px #a855f7, 0 0 120px #a855f7;
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 20px #ff6bff, 0 0 40px #ff6bff, 0 0 80px #a855f7; opacity: 0.9; }
+            to { text-shadow: 0 0 30px #06b6d4, 0 0 60px #06b6d4, 0 0 100px #8b5cf6, 0 0 140px #8b5cf6; opacity: 1; }
+        }
+        .content-overlay {
+            position: fixed; inset: 0; z-index: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            pointer-events: none;
+        }
+        .click-area { position: fixed; inset: 0; z-index: 2; cursor: crosshair; }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" style="background: rgb(10, 5, 20);">
+  <canvas id="particleCanvas"></canvas>
+  <div class="content-overlay">
+   <h1 data-template-id="glow-title" class="canva-text glow-text text-5xl md:text-7xl font-black text-white text-center" style="font-family: Fraunces, serif; color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 64px;">✨ Magic ✨</h1>
+   <p data-template-id="subtitle" class="canva-text mt-6 text-lg text-white/60 text-center" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 18px;">Click anywhere for confetti</p>
+  </div>
+  <div class="click-area" id="clickArea"></div>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        const particles = [];
+        const confetti = [];
+        const colors = ['#ff6bff','#06b6d4','#a855f7','#f59e0b','#10b981','#f43f5e'];
+
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // Ambient particles
+        for (let i = 0; i < 80; i++) {
+            particles.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*3+1, vy: -(Math.random()*0.8+0.2), vx: (Math.random()-0.5)*0.4, color: colors[Math.floor(Math.random()*colors.length)], alpha: Math.random()*0.6+0.4 });
+        }
+
+        function spawnConfetti(x, y) {
+            for (let i = 0; i < 60; i++) {
+                const angle = Math.random()*Math.PI*2;
+                const speed = Math.random()*6+2;
+                confetti.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed - 2, life: 1, color: colors[Math.floor(Math.random()*colors.length)], size: Math.random()*6+3, rot: Math.random()*360 });
+            }
+        }
+
+        document.getElementById('clickArea').addEventListener('click', e => spawnConfetti(e.clientX, e.clientY));
+
+        function draw() {
+            ctx.fillStyle = 'rgba(10,5,20,0.15)';
+            ctx.fillRect(0,0,W,H);
+
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.y < -10) { p.y = H+10; p.x = Math.random()*W; }
+                if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                ctx.fillStyle = p.color; ctx.globalAlpha = p.alpha; ctx.fill();
+                ctx.globalAlpha = 1;
+            });
+
+            for (let i = confetti.length-1; i >= 0; i--) {
+                const c = confetti[i];
+                c.x += c.vx; c.y += c.vy; c.vy += 0.15; c.life -= 0.015;
+                if (c.life <= 0) { confetti.splice(i,1); continue; }
+                ctx.save(); ctx.translate(c.x, c.y); ctx.rotate(c.rot+=0.1);
+                ctx.globalAlpha = c.life; ctx.fillStyle = c.color;
+                ctx.fillRect(-c.size/2, -c.size/2, c.size, c.size/2);
+                ctx.restore(); ctx.globalAlpha = 1;
+            }
+
+            requestAnimationFrame(draw);
+        }
+        // Initial clear
+        ctx.fillStyle = '#0a0514'; ctx.fillRect(0,0,W,H);
+        draw();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1305007f40c3cfd',t:'MTc4MjY4NzY3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
