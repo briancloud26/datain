@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260629-05-f19f4d2"}');</script><script src="/_sdk/e4192b04afde3ce7.telemetry_sdk.js" integrity="sha512-4eZpyKBd3YJnsIPrIpaBqo7QT5UZ6+KSFXkSu1IQiB7jKM8y67ChRhZ5Yh6JfuOJCbPdISiNcS6nLKZzIMG1uQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Knowledge Trivia</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Fraunces:wght@700;900&amp;display=swap" rel="stylesheet">
+  <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2 { font-family: 'Fraunces', serif; }
+        .answer-btn { transition: all 0.2s; }
+        .answer-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .answer-btn.correct { background: #16a34a !important; color: #fff !important; }
+        .answer-btn.wrong { background: #dc2626 !important; color: #fff !important; opacity: 0.7; }
+        .fade-in { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/48bf7c4c70d0d03c.data_sdk.js" type="text/javascript" integrity="sha512-e/yrQJz+prdXXt4yUvxXhl1WBGu3BRkP8X0fipGXI5gqiFClI7wI6K3TQnD7d63vx+BVhwzIvY6r8OrpX7lXJA=="></script>
+  <script src="/_sdk/5d8c692e132d2125.resizing_sdk.js" type="text/javascript" integrity="sha512-/Du3Fqe12kKsCd3BrbaNQEPtMxQi9S5hbJhnTf09AAilpqYsGa4N0rnimSX1Ui4dwNElKlen6VlI+E1n/NEfrA=="></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen flex flex-col items-center justify-center p-4" style="background: linear-gradient(135deg, rgb(30, 27, 75), rgb(49, 46, 129), rgb(76, 29, 149));">
+  <main class="w-full max-w-xl"><!-- Start Screen -->
+   <div id="start-screen" class="text-center space-y-6"><img data-template-id="hero-image" class="canva-image w-32 h-32 mx-auto rounded-full object-cover shadow-lg" loading="lazy" src="https://images.pexels.com/photos/6193936/pexels-photo-6193936.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="Brain-shaped eraser with a light bulb paperclip on a pastel pink background">
+    <h1 data-template-id="quiz-title" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 32px;">General Knowledge Trivia</h1>
+    <p data-template-id="quiz-subtitle" class="canva-text" style="color: rgb(196, 181, 253); font-weight: 400; font-style: normal; font-size: 18px;">Test your knowledge with 10 questions across science, history, geography and more!</p><button data-template-id="start-button" class="canva-button px-8 py-3 rounded-full font-bold text-lg" onclick="startQuiz()" style="background: rgb(245, 158, 11); color: rgb(30, 27, 75); font-weight: 700; font-style: normal; font-size: 16px;">Start Quiz</button>
+   </div><!-- Quiz Screen -->
+   <div id="quiz-screen" class="hidden fade-in">
+    <div class="flex justify-between items-center mb-4"><span data-template-id="progress-label" class="canva-text text-sm font-medium" style="color: rgb(196, 181, 253); font-weight: 400; font-style: normal; font-size: 16px;">Progress</span> <span id="progress-text" class="text-sm font-medium opacity-70"></span>
+    </div>
+    <div class="w-full bg-white/20 rounded-full h-2 mb-6">
+     <div id="progress-bar" class="h-2 rounded-full bg-amber-400 transition-all duration-300" style="width:0%"></div>
+    </div>
+    <div data-template-id="question-card" class="canva-card rounded-2xl p-6 shadow-xl space-y-5" style="background: rgba(255, 255, 255, 0.08);">
+     <h2 id="question-text" class="text-xl font-bold leading-snug"></h2>
+     <div id="answers" class="grid gap-3"></div>
+    </div>
+   </div><!-- Results Screen -->
+   <div id="results-screen" class="hidden fade-in text-center space-y-6">
+    <h2 data-template-id="results-title" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 24px;">Quiz Complete!</h2>
+    <p id="score-display" class="text-5xl font-bold"></p>
+    <p data-template-id="results-subtitle" class="canva-text" style="color: rgb(196, 181, 253); font-weight: 400; font-style: normal; font-size: 18px;">Great effort! Try again to beat your score.</p><button data-template-id="restart-button" class="canva-button px-8 py-3 rounded-full font-bold text-lg" onclick="restartQuiz()" style="background: rgb(245, 158, 11); color: rgb(30, 27, 75); font-weight: 700; font-style: normal; font-size: 16px;">Play Again</button>
+   </div>
+  </main>
+  <script src="/_sdk/222d5a595d1ea7ba.editing_sdk.js" integrity="sha512-+eUQhAMYoBwLPVWl3qwUfHhQeNM4ejU4XowINDMcqsaOwqt9uw0YaoGtGcOm1aWn4O0sfUcOk3TSof/bgT1OKQ=="></script>
+  <script>
+        const questions = [
+            { q: "What is the largest planet in our solar system?", options: ["Mars","Jupiter","Saturn","Neptune"], answer: 1 },
+            { q: "Which element has the chemical symbol 'Au'?", options: ["Silver","Aluminum","Gold","Argon"], answer: 2 },
+            { q: "In what year did the Titanic sink?", options: ["1905","1912","1918","1923"], answer: 1 },
+            { q: "What is the smallest country in the world by area?", options: ["Monaco","Vatican City","San Marino","Liechtenstein"], answer: 1 },
+            { q: "Which artist painted the Mona Lisa?", options: ["Michelangelo","Raphael","Leonardo da Vinci","Donatello"], answer: 2 },
+            { q: "How many bones are in the adult human body?", options: ["186","206","226","256"], answer: 1 },
+            { q: "What is the capital of Australia?", options: ["Sydney","Melbourne","Canberra","Perth"], answer: 2 },
+            { q: "Which ocean is the largest?", options: ["Atlantic","Indian","Arctic","Pacific"], answer: 3 },
+            { q: "What gas do plants primarily absorb from the atmosphere?", options: ["Oxygen","Nitrogen","Carbon Dioxide","Hydrogen"], answer: 2 },
+            { q: "Who wrote 'Romeo and Juliet'?", options: ["Charles Dickens","William Shakespeare","Jane Austen","Mark Twain"], answer: 1 }
+        ];
+
+        let current = 0, score = 0;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[current];
+            document.getElementById('question-text').textContent = q.q;
+            document.getElementById('progress-text').textContent = `${current + 1} / ${questions.length}`;
+            document.getElementById('progress-bar').style.width = `${((current) / questions.length) * 100}%`;
+            const container = document.getElementById('answers');
+            container.innerHTML = '';
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn w-full text-left px-4 py-3 rounded-xl border-2 border-white/30 bg-white/10 font-medium';
+                btn.textContent = opt;
+                btn.onclick = () => selectAnswer(i, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(idx, btn) {
+            const btns = document.querySelectorAll('.answer-btn');
+            btns.forEach(b => b.disabled = true);
+            const correct = questions[current].answer;
+            if (idx === correct) { score++; btn.classList.add('correct'); }
+            else { btn.classList.add('wrong'); btns[correct].classList.add('correct'); }
+            setTimeout(() => { current++; if (current < questions.length) showQuestion(); else showResults(); }, 1000);
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+            document.getElementById('score-display').textContent = `${score} / ${questions.length}`;
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+
+        function restartQuiz() {
+            current = 0; score = 0;
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a138434b54957066',t:'MTc4Mjc3MTA0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
