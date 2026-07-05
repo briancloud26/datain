@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260703-05-6766c4c"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Development</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Fraunces:wght@700;900&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+    .heading-font { font-family: 'Fraunces', serif; }
+  </style>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/0b3af1c300e720aa.resizing_sdk.js" type="text/javascript" integrity="sha512-nX1P6oXZmEY5wCI2lUVg3BwKu1cr0yi+ZpXgZ0Yn90vkSwvpmyzBMvOyD6VLJUtBwFI2dSrw1b6OvORxSggw3w=="></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full" style="background: rgb(10, 10, 15);">
+  <header class="fixed top-0 w-full z-50 backdrop-blur-md bg-[#0a0a0f]/80 border-b border-white/5">
+   <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <h1 data-template-id="nav-logo" class="canva-text heading-font text-xl" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 32px;">Apex Apps</h1>
+    <div class="hidden md:flex gap-8"><a href="#services" data-template-id="nav-services" class="canva-link text-sm hover:text-emerald-400 transition-colors" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Services</a> <a href="#portfolio" data-template-id="nav-portfolio" class="canva-link text-sm hover:text-emerald-400 transition-colors" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Portfolio</a> <a href="#pricing" data-template-id="nav-pricing" class="canva-link text-sm hover:text-emerald-400 transition-colors" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Pricing</a> <a href="#contact" data-template-id="nav-contact" class="canva-link text-sm hover:text-emerald-400 transition-colors" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Contact</a>
+    </div>
+   </nav>
+  </header>
+  <main><!-- Hero -->
+   <section class="relative min-h-screen flex items-center pt-20">
+    <div class="absolute inset-0 bg-gradient-to-br from-emerald-950/40 via-transparent to-purple-950/30"></div>
+    <div class="relative max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+     <div>
+      <h2 data-template-id="hero-title" class="canva-text heading-font text-5xl md:text-6xl leading-tight" style="color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 24px;">We Build Apps That People Love</h2>
+      <p data-template-id="hero-subtitle" class="canva-text mt-6 text-lg opacity-80 max-w-md" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">From concept to launch, we craft native and cross-platform mobile experiences that drive growth.</p><a href="#contact" data-template-id="hero-cta" class="canva-button inline-block mt-8 px-8 py-4 rounded-full font-medium text-lg transition-transform hover:scale-105" style="background: rgb(16, 185, 129); color: rgb(2, 44, 34); font-weight: 600; font-style: normal; font-size: 16px;">Start Your Project</a>
+     </div>
+     <div class="relative">
+      <div class="absolute -inset-4 bg-emerald-500/20 rounded-3xl blur-3xl"></div><img data-template-id="hero-image" class="canva-image relative rounded-2xl w-full h-80 object-cover shadow-2xl" loading="lazy" src="https://images.pexels.com/photos/11780441/pexels-photo-11780441.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Hand holding smartphone over app design sketches on papers, top view.">
+     </div>
+    </div>
+   </section><!-- Services -->
+   <section id="services" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+     <h2 data-template-id="services-title" class="canva-text heading-font text-3xl text-center mb-16" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">What We Do</h2>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div data-template-id="service-1" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(10, 10, 15);">
+       <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-5">
+        <i data-lucide="smartphone" class="text-emerald-400" style="width:24px;height:24px"></i>
+       </div>
+       <h3 data-template-id="service-1-title" class="canva-text font-bold text-xl mb-3" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 19px;">iOS Development</h3>
+       <p data-template-id="service-1-desc" class="canva-text opacity-70 text-sm leading-relaxed" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Beautiful, performant apps built with Swift for iPhone and iPad.</p>
+      </div>
+      <div data-template-id="service-2" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(10, 10, 15);">
+       <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-5">
+        <i data-lucide="layout" class="text-purple-400" style="width:24px;height:24px"></i>
+       </div>
+       <h3 data-template-id="service-2-title" class="canva-text font-bold text-xl mb-3" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 19px;">Android Development</h3>
+       <p data-template-id="service-2-desc" class="canva-text opacity-70 text-sm leading-relaxed" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Kotlin-powered apps optimized for the full Android ecosystem.</p>
+      </div>
+      <div data-template-id="service-3" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(10, 10, 15);">
+       <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mb-5">
+        <i data-lucide="layers" class="text-amber-400" style="width:24px;height:24px"></i>
+       </div>
+       <h3 data-template-id="service-3-title" class="canva-text font-bold text-xl mb-3" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 19px;">Cross-Platform</h3>
+       <p data-template-id="service-3-desc" class="canva-text opacity-70 text-sm leading-relaxed" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">React Native and Flutter solutions that ship to both platforms fast.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Portfolio -->
+   <section id="portfolio" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+     <h2 data-template-id="portfolio-title" class="canva-text heading-font text-3xl text-center mb-16" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Recent Work</h2>
+     <div class="grid md:grid-cols-3 gap-6">
+      <div class="group relative overflow-hidden rounded-2xl"><img data-template-id="portfolio-1-img" class="canva-image w-full h-72 object-cover transition-transform group-hover:scale-105" loading="lazy" src="https://images.pexels.com/photos/3850263/pexels-photo-3850263.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Detailed view of smartphone displaying multiple app icons on screen.">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <p data-template-id="portfolio-1-label" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">HealthTrack — Fitness App</p>
+       </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-2xl"><img data-template-id="portfolio-2-img" class="canva-image w-full h-72 object-cover transition-transform group-hover:scale-105" loading="lazy" src="https://images.pexels.com/photos/10020092/pexels-photo-10020092.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A digital tablet showing a web analytics dashboard with graphs and charts.">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <p data-template-id="portfolio-2-label" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">Insightful — Analytics Dashboard</p>
+       </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-2xl"><img data-template-id="portfolio-3-img" class="canva-image w-full h-72 object-cover transition-transform group-hover:scale-105" loading="lazy" src="https://images.pexels.com/photos/16675631/pexels-photo-16675631.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Smartphone displaying an ecommerce website.">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <p data-template-id="portfolio-3-label" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">ShopEase — E-Commerce App</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Testimonials -->
+   <section class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+     <h2 data-template-id="testimonials-title" class="canva-text heading-font text-3xl text-center mb-16" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">What Clients Say</h2>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div data-template-id="testimonial-1" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(10, 10, 15);">
+       <p data-template-id="testimonial-1-quote" class="canva-text text-sm leading-relaxed opacity-80 mb-6" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">"Apex Apps transformed our idea into a polished product in record time. The team's attention to detail is remarkable."</p>
+       <p data-template-id="testimonial-1-author" class="canva-text font-bold text-sm" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Sarah Mitchell</p>
+       <p data-template-id="testimonial-1-role" class="canva-text text-xs opacity-50 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">CEO, HealthTrack</p>
+      </div>
+      <div data-template-id="testimonial-2" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(10, 10, 15);">
+       <p data-template-id="testimonial-2-quote" class="canva-text text-sm leading-relaxed opacity-80 mb-6" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">"Professional, responsive, and incredibly talented. Our app downloads tripled within the first month of launch."</p>
+       <p data-template-id="testimonial-2-author" class="canva-text font-bold text-sm" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">James Chen</p>
+       <p data-template-id="testimonial-2-role" class="canva-text text-xs opacity-50 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Founder, Insightful</p>
+      </div>
+      <div data-template-id="testimonial-3" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(10, 10, 15);">
+       <p data-template-id="testimonial-3-quote" class="canva-text text-sm leading-relaxed opacity-80 mb-6" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">"They don't just build apps — they build experiences. Our customers love the intuitive design."</p>
+       <p data-template-id="testimonial-3-author" class="canva-text font-bold text-sm" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Maria Lopez</p>
+       <p data-template-id="testimonial-3-role" class="canva-text text-xs opacity-50 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">CPO, ShopEase</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Team -->
+   <section class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+     <h2 data-template-id="team-title" class="canva-text heading-font text-3xl text-center mb-16" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Meet the Team</h2>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center"><img data-template-id="team-1-img" class="canva-image w-28 h-28 rounded-full object-cover mx-auto mb-4" loading="lazy" src="https://images.pexels.com/photos/7989025/pexels-photo-7989025.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="A young man smiles while programming in a modern office environment.">
+       <p data-template-id="team-1-name" class="canva-text font-bold" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Alex Rivera</p>
+       <p data-template-id="team-1-role" class="canva-text text-sm opacity-60 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Lead iOS Developer</p>
+      </div>
+      <div class="text-center"><img data-template-id="team-2-img" class="canva-image w-28 h-28 rounded-full object-cover mx-auto mb-4" loading="lazy" src="https://images.pexels.com/photos/27896377/pexels-photo-27896377.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="A confident businesswoman poses against a white wall.">
+       <p data-template-id="team-2-name" class="canva-text font-bold" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Priya Sharma</p>
+       <p data-template-id="team-2-role" class="canva-text text-sm opacity-60 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">UX Designer</p>
+      </div>
+      <div class="text-center"><img data-template-id="team-3-img" class="canva-image w-28 h-28 rounded-full object-cover mx-auto mb-4" loading="lazy" src="https://images.pexels.com/photos/8837558/pexels-photo-8837558.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="Portrait of a smiling man indoors wearing a beige blazer.">
+       <p data-template-id="team-3-name" class="canva-text font-bold" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Marcus Hall</p>
+       <p data-template-id="team-3-role" class="canva-text text-sm opacity-60 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Project Manager</p>
+      </div>
+      <div class="text-center"><img data-template-id="team-4-img" class="canva-image w-28 h-28 rounded-full object-cover mx-auto mb-4" loading="lazy" src="https://images.pexels.com/photos/17666355/pexels-photo-17666355.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="Portrait of a smiling woman at a desk in an office setting.">
+       <p data-template-id="team-4-name" class="canva-text font-bold" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Keisha Okoye</p>
+       <p data-template-id="team-4-role" class="canva-text text-sm opacity-60 mt-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Android Developer</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Pricing -->
+   <section id="pricing" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+     <h2 data-template-id="pricing-title" class="canva-text heading-font text-3xl text-center mb-16" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Pricing</h2>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div data-template-id="pricing-1" class="canva-card p-8 rounded-2xl border border-white/10 text-center" style="background: rgb(10, 10, 15);">
+       <h3 data-template-id="pricing-1-name" class="canva-text font-bold text-xl mb-2" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 19px;">Starter</h3>
+       <p data-template-id="pricing-1-price" class="canva-text heading-font text-4xl font-bold mb-1" style="color: rgb(16, 185, 129); font-weight: 700; font-style: normal; font-size: 16px;">$5k</p>
+       <p data-template-id="pricing-1-period" class="canva-text text-sm opacity-50 mb-6" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">per project</p>
+       <p data-template-id="pricing-1-features" class="canva-text text-sm opacity-70 leading-loose" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">Single platform
+Up to 5 screens
+2 revision rounds
+30-day support</p>
+      </div>
+      <div data-template-id="pricing-2" class="canva-card p-8 rounded-2xl border-2 border-emerald-500/50 text-center relative" style="background: rgb(15, 26, 21);"><span data-template-id="pricing-2-badge" class="canva-tag absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold" style="background: rgb(16, 185, 129); color: rgb(2, 44, 34); font-weight: 700; font-style: normal; font-size: 16px;">Popular</span>
+       <h3 data-template-id="pricing-2-name" class="canva-text font-bold text-xl mb-2 mt-2" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 19px;">Growth</h3>
+       <p data-template-id="pricing-2-price" class="canva-text heading-font text-4xl font-bold mb-1" style="color: rgb(16, 185, 129); font-weight: 700; font-style: normal; font-size: 16px;">$12k</p>
+       <p data-template-id="pricing-2-period" class="canva-text text-sm opacity-50 mb-6" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">per project</p>
+       <p data-template-id="pricing-2-features" class="canva-text text-sm opacity-70 leading-loose" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">iOS + Android
+Up to 15 screens
+Unlimited revisions
+90-day support</p>
+      </div>
+      <div data-template-id="pricing-3" class="canva-card p-8 rounded-2xl border border-white/10 text-center" style="background: rgb(10, 10, 15);">
+       <h3 data-template-id="pricing-3-name" class="canva-text font-bold text-xl mb-2" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 19px;">Enterprise</h3>
+       <p data-template-id="pricing-3-price" class="canva-text heading-font text-4xl font-bold mb-1" style="color: rgb(16, 185, 129); font-weight: 700; font-style: normal; font-size: 16px;">$25k+</p>
+       <p data-template-id="pricing-3-period" class="canva-text text-sm opacity-50 mb-6" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">custom scope</p>
+       <p data-template-id="pricing-3-features" class="canva-text text-sm opacity-70 leading-loose" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">Full platform suite
+Custom integrations
+Dedicated team
+12-month support</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Customer Vlogs -->
+   <section class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+     <h2 data-template-id="vlogs-title" class="canva-text heading-font text-3xl text-center mb-16" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Customer Success Stories</h2>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div class="group relative overflow-hidden rounded-2xl">
+       <img data-template-id="vlog-1-img" class="canva-image w-full h-72 object-cover transition-transform group-hover:scale-105" loading="lazy" src="https://images.pexels.com/photos/30622038/pexels-photo-30622038.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A podcast recording session with a camera capturing a speaker on a sofa indoors.">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <p data-template-id="vlog-1-label" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">Founder Testimonial</p>
+       </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-2xl">
+       <img data-template-id="vlog-2-img" class="canva-image w-full h-72 object-cover transition-transform group-hover:scale-105" loading="lazy" src="https://images.pexels.com/photos/8117901/pexels-photo-8117901.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A blogger sits in front of a camera for filming a video indoors.">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <p data-template-id="vlog-2-label" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">Product Launch Story</p>
+       </div>
+      </div>
+      <div class="group relative overflow-hidden rounded-2xl">
+       <img data-template-id="vlog-3-img" class="canva-image w-full h-72 object-cover transition-transform group-hover:scale-105" loading="lazy" src="https://images.pexels.com/photos/8370744/pexels-photo-8370744.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Woman recording video content with a smartphone using a ring light in a professional setting.">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+        <p data-template-id="vlog-3-label" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">Success Metrics</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Invoice Display -->
+   <section class="py-24">
+    <div class="max-w-4xl mx-auto px-6">
+     <h2 data-template-id="invoice-title" class="canva-text heading-font text-3xl text-center mb-12" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Project Breakdown</h2>
+     <div data-template-id="invoice-card" class="canva-card p-8 rounded-2xl border border-white/10" style="background: rgb(15, 26, 21);">
+      <div class="mb-8 pb-8 border-b border-white/10">
+       <p data-template-id="invoice-project-label" class="canva-text text-xs opacity-50 mb-1" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Current Project</p>
+       <p data-template-id="invoice-project-name" class="canva-text text-xl font-bold" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">HealthTrack Mobile App</p>
+      </div>
+      <div class="space-y-4 mb-8">
+       <div class="flex justify-between items-center">
+        <p data-template-id="invoice-item-1-desc" class="canva-text opacity-70" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Design &amp; UX</p>
+        <p data-template-id="invoice-item-1-cost" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">$2,400</p>
+       </div>
+       <div class="flex justify-between items-center">
+        <p data-template-id="invoice-item-2-desc" class="canva-text opacity-70" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">iOS Development</p>
+        <p data-template-id="invoice-item-2-cost" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">$4,800</p>
+       </div>
+       <div class="flex justify-between items-center">
+        <p data-template-id="invoice-item-3-desc" class="canva-text opacity-70" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Android Development</p>
+        <p data-template-id="invoice-item-3-cost" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">$4,200</p>
+       </div>
+       <div class="flex justify-between items-center">
+        <p data-template-id="invoice-item-4-desc" class="canva-text opacity-70" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Testing &amp; QA</p>
+        <p data-template-id="invoice-item-4-cost" class="canva-text font-medium" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">$1,600</p>
+       </div>
+      </div>
+      <div class="pt-8 border-t border-white/10 flex justify-between items-center">
+       <p data-template-id="invoice-total-label" class="canva-text font-bold text-lg" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">Total Project Cost</p>
+       <p data-template-id="invoice-total-amount" class="canva-text heading-font text-3xl font-bold text-emerald-400" style="color: rgb(16, 185, 129); font-weight: 700; font-style: normal; font-size: 16px;">$13,000</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact -->
+   <section id="contact" class="py-24">
+    <div class="max-w-xl mx-auto px-6">
+     <h2 data-template-id="contact-title" class="canva-text heading-font text-3xl text-center mb-4" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Let's Talk</h2>
+     <p data-template-id="contact-subtitle" class="canva-text text-center opacity-70 mb-12" style="color: rgb(161, 161, 170); font-weight: 400; font-style: normal; font-size: 16px;">Tell us about your project and we'll get back within 24 hours.</p>
+     <form id="contact-form" class="space-y-5">
+      <div>
+       <label data-template-id="form-name-label" for="name" class="canva-text text-sm block mb-1" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">Name</label><input id="name" type="text" required="" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-emerald-500 outline-none transition-colors text-white">
+      </div>
+      <div>
+       <label data-template-id="form-email-label" for="email" class="canva-text text-sm block mb-1" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">Email</label><input id="email" type="email" required="" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-emerald-500 outline-none transition-colors text-white">
+      </div>
+      <div>
+       <label data-template-id="form-message-label" for="message" class="canva-text text-sm block mb-1" style="color: rgb(212, 212, 216); font-weight: 400; font-style: normal; font-size: 16px;">Message</label><textarea id="message" rows="4" required="" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-emerald-500 outline-none transition-colors text-white resize-none"></textarea>
+      </div><button data-template-id="form-submit" type="submit" class="canva-button w-full py-4 rounded-xl font-medium text-lg transition-transform hover:scale-[1.02]" style="background: rgb(16, 185, 129); color: rgb(2, 44, 34); font-weight: 600; font-style: normal; font-size: 16px;">Send Message</button>
+     </form>
+     <p id="success-msg" class="hidden mt-4 text-center text-emerald-400 font-medium">Message sent! We'll be in touch soon.</p>
+    </div>
+   </section>
+  </main>
+  <footer data-template-id="footer-section" class="canva-footer border-t border-white/5 py-8" style="background: rgb(10, 10, 15);">
+   <p data-template-id="footer-text" class="canva-text text-center text-sm opacity-50" style="color: rgb(82, 82, 91); font-weight: 400; font-style: normal; font-size: 16px;">© 2026 Apex Apps. All rights reserved.</p>
+  </footer>
+  <script src="/_sdk/e063511df281944a.editing_sdk.js" integrity="sha512-Xa8p4aPfoMxVnzxQE2WAG0FfoaPLxdjOJMfUZGm1yZosJTYmnNDvgLkJ2EoN0i3zxjeQVAzUMSXNvTKQVqbXyQ=="></script>
+  <script>
+  lucide.createIcons();
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.classList.add('hidden');
+    document.getElementById('success-msg').classList.remove('hidden');
+  });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a162477e85ff2cab',t:'MTc4MzIxMTYxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
