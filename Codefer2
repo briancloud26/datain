@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260713-05-4d7706e"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strategic Corridors Ideas</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+        body { font-family: 'Work Sans', sans-serif; }
+        .heading-font { font-family: 'Playfair Display', serif; }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full min-h-screen" style="background: rgb(250, 248, 245);">
+  <header class="relative w-full h-[65vh] overflow-hidden flex items-end">
+   <img data-template-id="hero-img" class="canva-image absolute inset-0 w-full h-full object-cover" loading="lazy" src="https://images.pexels.com/photos/8704331/pexels-photo-8704331.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920" alt="A stunning aerial view of the Yavuz Sultan Selim Bridge spanning the Bosphorus Strait at sunrise.">
+   <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+   <div class="relative z-10 px-8 pb-12 max-w-3xl">
+    <h1 data-template-id="hero-title" class="canva-text heading-font" style="color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 52px;">Next-Generation Corridor Solutions</h1>
+    <p data-template-id="hero-subtitle" class="canva-text mt-4" style="color: rgb(232, 228, 223); font-weight: 400; font-style: normal; font-size: 18px;">Innovative approaches to sustainable mobility, autonomous systems, and smart corridor networks.</p>
+   </div>
+  </header>
+  <main class="max-w-5xl mx-auto px-6 py-20">
+   <h2 data-template-id="section-heading" class="canva-text heading-font text-center mb-16" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 24px;">Emerging Corridor Innovations</h2>
+   <div class="space-y-10">
+    <article data-template-id="card-1" class="canva-card flex flex-col md:flex-row rounded-xl overflow-hidden shadow-md" style="background: rgb(255, 255, 255);">
+     <img data-template-id="card-1-img" class="canva-image w-full md:w-2/5 h-56 md:h-auto object-cover" loading="lazy" src="https://images.pexels.com/photos/9648944/pexels-photo-9648944.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A high-speed bullet train at a modern railway station during the day, showcasing efficient public transport.">
+     <div class="p-8 flex flex-col justify-center">
+      <h3 data-template-id="card-1-title" class="canva-text heading-font" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 22px;">Autonomous Rapid Transit</h3>
+      <p data-template-id="card-1-desc" class="canva-text mt-3" style="color: rgb(74, 74, 74); font-weight: 400; font-style: normal; font-size: 16px;">Self-driving transit systems connecting urban centers with hyperloop technology, achieving zero-emission travel at unprecedented speeds.</p>
+     </div>
+    </article>
+    <article data-template-id="card-2" class="canva-card flex flex-col md:flex-row-reverse rounded-xl overflow-hidden shadow-md" style="background: rgb(255, 255, 255);">
+     <img data-template-id="card-2-img" class="canva-image w-full md:w-2/5 h-56 md:h-auto object-cover" loading="lazy" src="https://images.pexels.com/photos/7519262/pexels-photo-7519262.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Aerial shot of a busy container port in Scotland with cranes and colorful cargo containers.">
+     <div class="p-8 flex flex-col justify-center">
+      <h3 data-template-id="card-2-title" class="canva-text heading-font" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 22px;">Autonomous Delivery Networks</h3>
+      <p data-template-id="card-2-desc" class="canva-text mt-3" style="color: rgb(74, 74, 74); font-weight: 400; font-style: normal; font-size: 16px;">AI-powered drone and robot networks managing last-mile delivery across connected corridors, cutting logistics costs by 40% and emissions by 70%.</p>
+     </div>
+    </article>
+    <article data-template-id="card-3" class="canva-card flex flex-col md:flex-row rounded-xl overflow-hidden shadow-md" style="background: rgb(255, 255, 255);">
+     <img data-template-id="card-3-img" class="canva-image w-full md:w-2/5 h-56 md:h-auto object-cover" loading="lazy" src="https://images.pexels.com/photos/8640331/pexels-photo-8640331.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="A mesmerizing display of glowing neon blue optical fibers creating a futuristic atmosphere.">
+     <div class="p-8 flex flex-col justify-center">
+      <h3 data-template-id="card-3-title" class="canva-text heading-font" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 22px;">Renewable Energy Corridors</h3>
+      <p data-template-id="card-3-desc" class="canva-text mt-3" style="color: rgb(74, 74, 74); font-weight: 400; font-style: normal; font-size: 16px;">Integrating solar panels and wind farms into highway and rail infrastructure, powering transport networks while generating clean electricity.</p>
+     </div>
+    </article>
+   </div>
+  </main>
+  <footer data-template-id="footer" class="canva-footer w-full py-8 text-center" style="background: rgb(26, 26, 26);">
+   <p data-template-id="footer-text" class="canva-text text-sm" style="color: rgb(136, 136, 136); font-weight: 400; font-style: normal; font-size: 16px;">© 2026 Strategic Corridors Initiative</p>
+  </footer>
+  <script src="/_sdk/719055fef2a85d14.editing_sdk.js" integrity="sha512-kFqrdGgIiTOsu307feB5Cy3JVP9IayftsmCIZ0csxYBGuBmJQPhyvcnmKR8F0fTW97h5s1gAvz3SumI8zJ6OxQ=="></script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1a9371751a31bdc',t:'MTc4Mzk1NTQzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
