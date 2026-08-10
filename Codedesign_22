@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260810-01-d2eaec1","C":{"Abril Fatface":"YACgEZbkUVE,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Canva Sans":"YAFLd8sKbwc,2","Caveat":"YALBs2ploWQ,0","Comic Sans MS":"YAHO2VMiyZo,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAEul-FRQw4,0","Georgia":"YAGzXkO0pEM,0","Helvetica Neue":"YAFcf6CtJfI,0","Impact":"YAFcfnjI7Vk,0","Inter":"YAFdJvSyp_k,3","Iowan Old Style":"YAGNIFa8j9o,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Libre Baskerville":"YACgEUFdPdA,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YADLjI9qxTA,0","Nunito":"YACgEX8C5Gg,0","Oleo Script":"YACgEQQ14jI,0","Phantom Sans":"YAHO2E8Pb88,0","Playfair Display":"YACgEYmuCJE,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Quicksand":"YADWjpfPmdk,0","Raleway":"YACgEVg3xZg,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Times":"YAGzXW3gftg,0","Ubuntu":"YACgERDU--Q,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0","ui-monospace":"YADlN8CFZ8Q,0","ui-sans-serif":"YACkoN-xg4g,0"}}');</script><script src="/_sdk/7949ff62d67710d5.telemetry_sdk.js" integrity="sha512-KIvXA82Di44YY/RH9/63A9MuTuavYgDFG8PfErJn7Wli4K0LAOk+coo/aPXk3+ZNL96nHh9VYD4PE+fLes+laQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Landing Page</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #173a38;
+      --muted: #55706d;
+      --line: #dce8e4;
+      --paper: #f8fbf9;
+      --mint: #dceee7;
+      --accent: #e66f4d;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: "DM Sans", sans-serif; }
+    .display-face { font-family: "Fraunces", serif; }
+    .page-shell { width: 100%; overflow-x: hidden; }
+    .site-width { width: min(100% - 2.5rem, 74rem); margin-inline: auto; }
+    .nav-link {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 600;
+      transition: color .2s ease;
+    }
+    .nav-link:hover { color: var(--ink); }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      border-radius: 999px;
+      padding: .85rem 1.2rem;
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    .cta-button:hover { transform: translateY(-2px); filter: brightness(.97); box-shadow: 0 12px 24px rgba(26, 74, 68, .16); }
+    .cta-button:focus-visible, .nav-link:focus-visible, a:focus-visible {
+      outline: 3px solid rgba(230,111,77,.42);
+      outline-offset: 4px;
+    }
+    .hero-art {
+      position: relative;
+      min-height: 29rem;
+      overflow: hidden;
+      border-radius: 2rem 2rem 2rem .45rem;
+    }
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(23,58,56,.04), rgba(23,58,56,.22));
+      pointer-events: none;
+    }
+    .hero-art img { width: 100%; height: 100%; object-fit: cover; }
+    .feature-card {
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .feature-card:hover { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(29, 65, 59, .08); }
+    .reveal { animation: settle .7s both ease-out; }
+    .delay-1 { animation-delay: .1s; }
+    .delay-2 { animation-delay: .2s; }
+    .delay-3 { animation-delay: .3s; }
+    @keyframes settle {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 640px) {
+      .site-width { width: min(100% - 1.5rem, 74rem); }
+      .hero-art { min-height: 22rem; border-radius: 1.5rem 1.5rem 1.5rem .35rem; }
+    }
+  </style>
+  <script src="/_sdk/0e8d3a91e1c6f495.data_sdk.js" type="text/javascript" integrity="sha512-c00oDoGjsMgluCLLEyVl3suwEkgjOGGplVFbsilUoBg4aMKNmsL3mwsc9r0dPn95qiSZyjBousQXgROkAW7p/w=="></script>
+  <script src="/_sdk/04cc6185e046f597.resizing_sdk.js" type="text/javascript" integrity="sha512-CiE/G92aQF0nxneFg1kdOvXih8sQ1Z2a2QI3+r/WvzJwQqH6+IyB3iL07OkJmpm3ABAaf07+FnqWny98f5sR6w=="></script>
+ </head>
+ <body data-template-id="__page-root" class="page-shell antialiased" style="background: rgb(248, 251, 249);">
+  <header data-template-id="site-header" class="canva-header border-b" style="border-color: var(--line); background: rgb(248, 251, 249);">
+   <div class="site-width flex min-h-[5.25rem] items-center justify-between gap-4"><a href="#home" class="shrink-0 rounded-md"> <span data-template-id="brand-name" class="canva-text display-face font-semibold" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 24px;">north &amp; form</span> </a>
+    <nav aria-label="Primary navigation" class="hidden items-center gap-7 md:flex"><a data-template-id="nav-features" class="canva-link nav-link" href="#features" style="color: rgb(85, 112, 109); font-weight: 600; font-style: normal; font-size: 16px;">What we do</a> <a data-template-id="nav-about" class="canva-link nav-link" href="#about" style="color: rgb(85, 112, 109); font-weight: 600; font-style: normal; font-size: 16px;">Our approach</a> <a data-template-id="nav-contact" class="canva-link nav-link" href="#contact" style="color: rgb(85, 112, 109); font-weight: 600; font-style: normal; font-size: 16px;">Connect</a>
+    </nav><a data-template-id="header-cta" class="canva-button cta-button shrink-0 text-sm font-semibold" href="#contact" style="background: rgb(23, 58, 56); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Start a conversation</a>
+   </div>
+  </header>
+  <main>
+   <section id="home" class="py-12 sm:py-16 lg:py-24">
+    <div class="site-width grid items-center gap-12 lg:grid-cols-[.95fr_1.05fr] lg:gap-16">
+     <div class="max-w-xl">
+      <p data-template-id="hero-eyebrow" class="canva-text reveal delay-1 mb-5 text-sm font-bold uppercase tracking-[.18em]" style="color: rgb(230, 111, 77); font-weight: 700; font-style: normal; font-size: 16px;">Thoughtful work, made clear</p>
+      <h1 data-template-id="hero-heading" class="canva-text display-face reveal delay-2 mb-6 font-semibold leading-[1.05]" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 32px;">Make your next move feel like the right one.</h1>
+      <p data-template-id="hero-subheading" class="canva-text reveal delay-3 mb-8 max-w-lg leading-7" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 18px; line-height: 1.6;">We help growing ideas take shape through focused strategy, distinctive design, and practical momentum.</p><a data-template-id="hero-cta" class="canva-button cta-button reveal delay-3 font-semibold" href="#contact" style="background: rgb(230, 111, 77); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Let’s work together</a>
+     </div>
+     <div class="hero-art reveal delay-2"><img data-template-id="hero-image" class="canva-image" loading="lazy" src="https://images.pexels.com/photos/5793947/pexels-photo-5793947.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="A minimalist workspace with an open laptop, coffee mug, and vase on a bright indoor table.">
+     </div>
+    </div>
+   </section>
+   <section id="features" data-template-id="features-section" class="canva-section py-16 sm:py-20" style="background: rgb(238, 246, 242);">
+    <div class="site-width">
+     <div class="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+      <div class="max-w-xl">
+       <p data-template-id="features-eyebrow" class="canva-text mb-3 text-sm font-bold uppercase tracking-[.18em]" style="color: rgb(230, 111, 77); font-weight: 700; font-style: normal; font-size: 16px;">A better way forward</p>
+       <h2 data-template-id="features-heading" class="canva-text display-face font-semibold leading-tight" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 24px;">Built for momentum, not noise.</h2>
+      </div>
+      <p data-template-id="features-supporting" class="canva-text max-w-sm leading-6" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 16px; line-height: 1.5;">The essentials, handled with care—so you can focus on what matters next.</p>
+     </div>
+     <div class="grid gap-5 md:grid-cols-3">
+      <article data-template-id="feature-one-card" class="canva-card feature-card p-7" style="background: rgb(255, 255, 255);">
+       <div class="mb-6 inline-flex rounded-full p-3" style="background: #c8e5db; color: var(--ink);"><i data-lucide="sparkles" width="22" height="22" aria-hidden="true"></i>
+       </div>
+       <h3 data-template-id="feature-one-title" class="canva-text mb-3 font-bold" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 20px;">Clear direction</h3>
+       <p data-template-id="feature-one-copy" class="canva-text leading-6" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 16px; line-height: 1.55;">Simple frameworks and sharp thinking that turn a good idea into a confident plan.</p>
+      </article>
+      <article data-template-id="feature-two-card" class="canva-card feature-card p-7" style="background: rgb(255, 255, 255);">
+       <div class="mb-6 inline-flex rounded-full p-3" style="background: #f8d9cd; color: var(--ink);"><i data-lucide="layers-3" width="22" height="22" aria-hidden="true"></i>
+       </div>
+       <h3 data-template-id="feature-two-title" class="canva-text mb-3 font-bold" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 20px;">Considered design</h3>
+       <p data-template-id="feature-two-copy" class="canva-text leading-6" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 16px; line-height: 1.55;">A visual system that feels recognisable, useful, and unmistakably your own.</p>
+      </article>
+      <article data-template-id="feature-three-card" class="canva-card feature-card p-7" style="background: rgb(255, 255, 255);">
+       <div class="mb-6 inline-flex rounded-full p-3" style="background: #e8e3bb; color: var(--ink);"><i data-lucide="heart-handshake" width="22" height="22" aria-hidden="true"></i>
+       </div>
+       <h3 data-template-id="feature-three-title" class="canva-text mb-3 font-bold" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 20px;">Human partnership</h3>
+       <p data-template-id="feature-three-copy" class="canva-text leading-6" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 16px; line-height: 1.55;">Collaborative support that keeps the process calm, open, and moving at the right pace.</p>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section id="about" class="py-16 sm:py-24">
+    <div class="site-width">
+     <div data-template-id="about-panel" class="canva-panel grid gap-8 rounded-[1.75rem] p-8 md:grid-cols-[.8fr_1.2fr] md:p-12" style="background: rgb(23, 58, 56);">
+      <div>
+       <p data-template-id="about-eyebrow" class="canva-text mb-3 text-sm font-bold uppercase tracking-[.18em]" style="color: rgb(185, 221, 209); font-weight: 700; font-style: normal; font-size: 16px;">About the studio</p>
+       <h2 data-template-id="about-heading" class="canva-text display-face font-semibold leading-tight" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">A small team with a wide-angle view.</h2>
+      </div>
+      <div class="max-w-2xl self-end">
+       <p data-template-id="about-copy" class="canva-text text-lg leading-8" style="color: rgb(220, 238, 231); font-weight: 400; font-style: normal; font-size: 18px; line-height: 1.65;">We believe meaningful brands are built in the details: a smart question, a generous collaboration, and the discipline to keep things simple. Our work brings together the strategy and craft needed to make progress visible.</p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section id="contact" class="pb-16 sm:pb-24">
+    <div class="site-width">
+     <div data-template-id="contact-panel" class="canva-panel rounded-[1.75rem] px-7 py-11 text-center sm:px-12 sm:py-16" style="background: rgb(220, 238, 231);">
+      <p data-template-id="contact-eyebrow" class="canva-text mb-4 text-sm font-bold uppercase tracking-[.18em]" style="color: rgb(198, 84, 55); font-weight: 700; font-style: normal; font-size: 16px;">Ready when you are</p>
+      <h2 data-template-id="contact-heading" class="canva-text display-face mx-auto mb-5 max-w-2xl font-semibold leading-tight" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 24px;">Let’s make something clear, useful, and memorable.</h2>
+      <p data-template-id="contact-copy" class="canva-text mx-auto mb-8 max-w-xl leading-7" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 18px; line-height: 1.55;">Have a project, an idea, or simply a question? Send a note and we’ll take it from there.</p><a data-template-id="contact-email" class="canva-button cta-button font-semibold" href="mailto:hello@yourbrand.com" style="background: rgb(23, 58, 56); color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">hello@yourbrand.com</a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer data-template-id="site-footer" class="canva-footer border-t py-7" style="border-color: var(--line); background: rgb(248, 251, 249);">
+   <div class="site-width flex flex-col gap-2 text-center sm:flex-row sm:justify-between sm:text-left">
+    <p data-template-id="footer-brand" class="canva-text text-sm font-semibold" style="color: rgb(23, 58, 56); font-weight: 700; font-style: normal; font-size: 16px;">north &amp; form</p>
+    <p data-template-id="footer-copy" class="canva-text text-sm" style="color: rgb(85, 112, 109); font-weight: 400; font-style: normal; font-size: 16px;">© 2026. Made with care.</p>
+   </div>
+  </footer>
+  <script src="/_sdk/a21fbee0f546ac94.editing_sdk.js" integrity="sha512-kYZrL0cHzR5BHnhrx8zxpQsDJHP1kmWVYeL0jhNBDl9VSYhmXdjMxDbk/u1ACh2xFuSYLc6XAPsKs3BInegRgw=="></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+  </script>
+ 
+</body></html>
