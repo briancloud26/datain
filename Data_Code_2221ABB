@@ -1,0 +1,273 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
+
+const STOP_CODES = [
+  "CRITICAL_PROCESS_DIED",
+  "KERNEL_DATA_INPAGE_ERROR",
+  "DPC_WATCHDOG_VIOLATION",
+  "IRQL_NOT_LESS_OR_EQUAL",
+  "SYSTEM_SERVICE_EXCEPTION",
+  "PAGE_FAULT_IN_NONPAGED_AREA",
+  "DRIVER_IRQL_NOT_LESS_OR_EQUAL",
+  "MEMORY_MANAGEMENT",
+  "WHEA_UNCORRECTABLE_ERROR",
+  "INACCESSIBLE_BOOT_DEVICE",
+];
+
+const CRASH_TYPES = [
+  { id: "win11", label: "Windows 11", stopCodes: STOP_CODES },
+  { id: "win10", label: "Windows 10", stopCodes: STOP_CODES },
+  { id: "legacy", label: "Legacy 98", stopCodes: ["0E"] },
+];
+
+// Fake QR code — a deterministic grid of black/white modules
+function FakeQR({ size = 140 }) {
+  const cells = 21;
+  const unit = size / cells;
+  const pattern = [];
+  let seed = 7;
+  const rand = () => {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
+  for (let y = 0; y < cells; y++) {
+    for (let x = 0; x < cells; x++) {
+      pattern.push(rand() > 0.5);
+    }
+  }
+  const isFinder = (x, y) => {
+    const inBox = (bx, by) => x >= bx && x < bx + 7 && y >= by && y < by + 7;
+    return inBox(0, 0) || inBox(cells - 7, 0) || inBox(0, cells - 7);
+  };
+  const renderFinder = (gx, gy) => {
+    const modules = [];
+    for (let dy = 0; dy < 7; dy++) {
+      for (let dx = 0; dx < 7; dx++) {
+        const onBorder = dx === 0 || dx === 6 || dy === 0 || dy === 6;
+        const inner = dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4;
+        if (onBorder || inner) {
+          modules.push(
+            <rect key={`f-${gx}-${gy}-${dx}-${dy}`} x={(gx + dx) * unit} y={(gy + dy) * unit} width={unit} height={unit} fill="#FFFFFF" />
+          );
+        }
+      }
+    }
+    return modules;
+  };
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} shapeRendering="crispEdges">
+      <rect width={size} height={size} fill="#FFFFFF" />
+      {pattern.map((on, i) => {
+        const x = i % cells;
+        const y = Math.floor(i / cells);
+        if (isFinder(x, y)) return null;
+        if (!on) return null;
+        return <rect key={i} x={x * unit} y={y * unit} width={unit} height={unit} fill="#FFFFFF" />;
+      })}
+      {renderFinder(0, 0)}
+      {renderFinder(cells - 7, 0)}
+      {renderFinder(0, cells - 7)}
+    </svg>
+  );
+}
+
+function Win11BSOD({ stopCode, progress }) {
+  return (
+    <div className="absolute inset-0 bg-[#0078D7] text-white font-mono flex flex-col px-[10vw] py-[8vh] select-none" style={{ lineHeight: 1.6 }}>
+      <div className="text-[120px] leading-none font-semibold mb-8">:(</div>
+      <div className="text-[28px] font-semibold mb-4 max-w-4xl">Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</div>
+      <div className="text-[22px] mb-10">{progress}% complete</div>
+      <div className="flex items-start gap-8 max-w-4xl">
+        <div className="shrink-0 border-4 border-white">
+          <FakeQR size={150} />
+        </div>
+        <div className="text-[17px] leading-relaxed">
+          <div className="mb-2">For more information about this issue and possible fixes, visit</div>
+          <div className="mb-4 underline">https://www.windows.com/stopcode</div>
+          <div className="mb-1">If you call a support person, give them this info:</div>
+          <div>Stop code: <span className="font-semibold">{stopCode}</span></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LegacyBSOD({ stopCode }) {
+  return (
+    <div className="absolute inset-0 bg-[#0000AA] text-white font-mono px-[6vw] py-[6vh] select-none" style={{ lineHeight: 1.5 }}>
+      <div className="text-[26px] bg-white text-[#0000AA] inline-block px-2 mb-4">Windows</div>
+      <div className="text-[20px] mb-6">A fatal exception {stopCode} has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36. The current application will be terminated.</div>
+      <div className="text-[20px] mb-6">* Press any key to terminate the current application.</div>
+      <div className="text-[20px] mb-6">* Press CTRL+ALT+DEL again to restart your computer. You will lose any unsaved information in all applications.</div>
+      <div className="text-[20px] mt-10 animate-pulse">Press any key to continue _</div>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [phase, setPhase] = useState("setup");
+  const [crashType, setCrashType] = useState("win11");
+  const [delay, setDelay] = useState(3);
+  const [countdown, setCountdown] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [stopCode, setStopCode] = useState("");
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (phase === "bsod") {
+      const type = CRASH_TYPES.find((t) => t.id === crashType);
+      const codes = type.stopCodes;
+      setStopCode(codes[Math.floor(Math.random() * codes.length)]);
+    }
+  }, [phase, crashType]);
+
+  useEffect(() => {
+    if (phase !== "bsod") return;
+    setProgress(0);
+    let cur = 0;
+    const interval = setInterval(() => {
+      const jump = Math.random() < 0.3 ? Math.floor(Math.random() * 30) + 5 : Math.floor(Math.random() * 4) + 1;
+      cur = Math.min(100, cur + jump);
+      setProgress(cur);
+      if (cur >= 100) clearInterval(interval);
+    }, 700);
+    return () => clearInterval(interval);
+  }, [phase]);
+
+  const goFullscreen = useCallback(async () => {
+    try {
+      if (containerRef.current?.requestFullscreen) {
+        await containerRef.current.requestFullscreen();
+      }
+    } catch (e) {
+      // fullscreen may be blocked
+    }
+  }, []);
+
+  const initiateCrash = useCallback(async () => {
+    if (delay > 0) {
+      setCountdown(delay);
+      let remaining = delay;
+      const tick = setInterval(async () => {
+        remaining -= 1;
+        if (remaining <= 0) {
+          clearInterval(tick);
+          setCountdown(null);
+          await goFullscreen();
+          setPhase("black");
+          setTimeout(() => setPhase("bsod"), 500);
+        } else {
+          setCountdown(remaining);
+        }
+      }, 1000);
+    } else {
+      await goFullscreen();
+      setPhase("black");
+      setTimeout(() => setPhase("bsod"), 500);
+    }
+  }, [delay, goFullscreen]);
+
+  const reset = useCallback(() => {
+    setPhase("setup");
+    setProgress(0);
+    setCountdown(null);
+  }, []);
+
+  useEffect(() => {
+    if (phase !== "bsod") return;
+    let moved = false;
+    const handleMove = () => {
+      if (moved) return;
+      moved = true;
+      reset();
+    };
+    const handleKey = (e) => {
+      if (e.key === "Escape") reset();
+    };
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [phase, reset]);
+
+  return (
+    <div ref={containerRef} className="relative w-screen overflow-hidden bg-black" style={{ height: "100vh" }}>
+      {phase === "setup" && (
+        <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-mono flex items-center justify-center p-6">
+          <div className="w-full max-w-2xl border border-[#333]">
+            <div className="bg-[#1a1a1a] px-5 py-3 border-b border-[#333] flex items-center justify-between">
+              <span className="text-[#9ca3af] text-sm tracking-widest">KERNEL VOID — CRASH SIMULATOR</span>
+              <span className="text-[#9ca3af] text-xs">v1.0</span>
+            </div>
+            <div className="p-6 space-y-6">
+              <div>
+                <div className="text-[#9ca3af] text-xs mb-2 uppercase tracking-wider">Crash Type</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {CRASH_TYPES.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => setCrashType(t.id)}
+                      className={`px-3 py-3 text-sm border transition-colors ${
+                        crashType === t.id
+                          ? "bg-white text-[#0078D7] border-white"
+                          : "bg-transparent text-[#e0e0e0] border-[#444] hover:bg-white hover:text-[#0078D7] hover:border-white"
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="text-[#9ca3af] text-xs mb-2 uppercase tracking-wider">Delay Before Crash</div>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="range"
+                    min="0"
+                    max="30"
+                    value={delay}
+                    onChange={(e) => setDelay(Number(e.target.value))}
+                    className="flex-1 accent-[#0078D7]"
+                  />
+                  <span className="text-sm w-20 text-right">{delay}s</span>
+                </div>
+                <div className="text-[#666] text-xs mt-1">Set 0s for instant crash.</div>
+              </div>
+
+              <button
+                onClick={initiateCrash}
+                className="w-full py-4 bg-[#0078D7] text-white text-base font-semibold tracking-wider hover:bg-white hover:text-[#0078D7] transition-colors border-2 border-[#0078D7]"
+              >
+                INITIATE SYSTEM CRASH
+              </button>
+
+              <div className="text-[#666] text-xs leading-relaxed pt-2 border-t border-[#222]">
+                <p className="mb-1">Press <span className="text-[#9ca3af]">ESC</span> or move the mouse to exit the blue screen.</p>
+                <p>Click the button above to launch the simulated crash in fullscreen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {phase === "setup" && countdown !== null && (
+        <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-white font-mono z-50">
+          <div className="text-[#9ca3af] text-sm mb-4 tracking-widest">SYSTEM CRASH IN</div>
+          <div className="text-[120px] font-semibold leading-none">{countdown}</div>
+          <div className="text-[#666] text-xs mt-6">Click anywhere to cancel</div>
+          <div className="absolute inset-0 cursor-pointer" onClick={reset} />
+        </div>
+      )}
+
+      {phase === "black" && <div className="absolute inset-0 bg-black" />}
+
+      {phase === "bsod" && (
+        <div className="absolute inset-0 cursor-none overflow-hidden">
+          {crashType === "legacy" ? <LegacyBSOD stopCode={stopCode} /> : <Win11BSOD stopCode={stopCode} progress={progress} />}
+        </div>
+      )}
+    </div>
+  );
+}
